@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Constants;
 
-public abstract class Node : MonoBehaviour
+public class CityNode : Node
 {
-    protected LandSeaDesignation landSeaDesignation;
-    
-    public LandSeaDesignation LandSeaDesignation
+    protected CityEra era;
+
+    public CityEra Era
     {
         get
         {
-            return landSeaDesignation;
+            return era;
         }
     }
 
@@ -27,5 +27,8 @@ public abstract class Node : MonoBehaviour
         
     }
 
-    public abstract void Selected();
+	public override void Selected()
+	{
+		throw new System.NotImplementedException();
+	}
 }
