@@ -6,6 +6,13 @@ using static Constants;
 public abstract class Node : MonoBehaviour
 {
     protected LandSeaDesignation landSeaDesignation;
+    public List<Node> NeighborNodes;
+    protected bool passable;
+
+    public bool Passable
+    {
+        get { return passable; }
+    }
     
     public LandSeaDesignation LandSeaDesignation
     {

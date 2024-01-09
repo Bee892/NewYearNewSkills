@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Planet: {fileID: 1758775607}
+  MainSettings: {fileID: 11400000, guid: a4bec3f6f49ef9c4b946425a3c8f4581, type: 2}
 --- !u!4 &290459064
 Transform:
   m_ObjectHideFlags: 0
@@ -386,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 747bdf7f938e4fc4aac22c81abbb292e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainSettings: {fileID: 11400000, guid: a4bec3f6f49ef9c4b946425a3c8f4581, type: 2}
 --- !u!65 &1758775608
 BoxCollider:
   m_ObjectHideFlags: 0
