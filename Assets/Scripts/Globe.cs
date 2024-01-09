@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -57,5 +58,10 @@ public class Globe : MonoBehaviour
 
             mousePos = Input.mousePosition;
         }
+    }
+
+    public void Setup(int numOfCities, int numOfFuel, int numOfFood, int numOfMetal, int numOfMinerals)
+    {
+
     }
 }
