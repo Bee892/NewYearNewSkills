@@ -34,5 +34,7 @@ public abstract class Node : MonoBehaviour
         
     }
 
+    public abstract void Setup();
+
     public abstract void Selected();
 }

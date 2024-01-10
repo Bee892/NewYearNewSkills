@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class NodeManager : MonoBehaviour
 {
+    List<Node> nodes = new List<Node>();
+
     private class LinkedNode
     {
         public Node n;
@@ -17,8 +20,30 @@ public class NodeManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private static NodeManager instance;
+
+    public static NodeManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+	private void Awake()
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
         
     }
@@ -79,4 +104,28 @@ public class NodeManager : MonoBehaviour
 
         return null;
     }
+
+    public void Setup(List<Node> newNodes)
+    {
+        nodes = newNodes;
+
+		foreach (Node n in nodes)
+		{
+			int neighborCount = 0;
+			foreach (Node n2 in nodes)
+			{
+                if (Math.Sqrt(Math.Pow((n2.transform.position.x - n.transform.position.x), 2) + Math.Pow((n2.transform.position.y - n.transform.position.y), 2) + Math.Pow((n2.transform.position.z - n.transform.position.z), 2)) <= n.GetComponentInChildren<MeshRenderer>().bounds.size.y && n2 != n)
+				{
+					n.NeighborNodes.Add(n2);
+                    neighborCount++;
+				}
+				
+				if (neighborCount == 6)
+				{
+					break;
+				}
+			}
+			n.Setup();
+		}
+	}
 }
