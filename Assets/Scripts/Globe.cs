@@ -84,19 +84,13 @@ public class Globe : MonoBehaviour
             {
 				nodes.Add(objs[i].AddComponent<BarrenNode>());
 			}
-        }
-
-        foreach (Node n in nodes)
-        {
-            int neighborCount = 0;
-            foreach (Node n2 in nodes)
+            else
             {
-                if (Math.Sqrt(Math.Pow((n2.transform.position.x - n.transform.position.x), 2) + Math.Pow((n2.transform.position.y - n.transform.position.y), 2) + Math.Pow((n2.transform.position.z - n.transform.position.z), 2)) <= n.GetComponentInChildren<MeshRenderer>().bounds.size.y && n2 != n)
-                {
-                    n.NeighborNodes.Add(n2);
-                }
+                nodes.Add(objs[i].GetComponent<Node>());
             }
         }
+
+        NodeManager.Instance.Setup(nodes);
 	}
 
     private void CreateRandomNodes<T>(int n, ref List<GameObject> objs, ref List<int> takenObjIndices, bool allowLand = true, bool allowWater = true) where T : Node
