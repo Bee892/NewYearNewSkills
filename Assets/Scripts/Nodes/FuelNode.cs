@@ -26,4 +26,9 @@ public class FuelNode : ResourceNode
 	{
 		throw new System.NotImplementedException();
 	}
+
+	public override void Setup()
+	{
+		throw new System.NotImplementedException();
+	}
 }
