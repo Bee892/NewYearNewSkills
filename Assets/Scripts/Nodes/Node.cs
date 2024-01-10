@@ -8,6 +8,7 @@ public abstract class Node : MonoBehaviour
     protected LandSeaDesignation landSeaDesignation;
     public List<Node> NeighborNodes;
     protected bool passable;
+    protected GameObject visual;
 
     public bool Passable
     {

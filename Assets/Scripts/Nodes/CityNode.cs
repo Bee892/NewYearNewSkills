@@ -31,4 +31,9 @@ public class CityNode : Node
 	{
 		throw new System.NotImplementedException();
 	}
+
+	public override void Setup()
+	{
+		throw new System.NotImplementedException();
+	}
 }
