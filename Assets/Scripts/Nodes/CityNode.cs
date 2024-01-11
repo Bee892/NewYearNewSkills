@@ -5,13 +5,13 @@ using static Constants;
 
 public class CityNode : Node
 {
-    protected CityEra era;
+    protected Era cityEra;
 
-    public CityEra Era
+    public Era CityEra
     {
         get
         {
-            return era;
+            return cityEra;
         }
     }
 

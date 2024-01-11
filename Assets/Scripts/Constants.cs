@@ -45,10 +45,13 @@ public class Constants
 	};
 
     // Cities
-    public enum CityEra
+    public enum Era
     {
         Primitive,
         Modern,
         Futuristic
     }
+
+    // Transportation
+    public const float ChanceOfDeparturePerSecond = 0.3f;
 }

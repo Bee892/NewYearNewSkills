@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSpeed: 0.5
   ZoomSpeed: 0.5
+  NumStartCities: 5
+  MaxCityResourceStartDist: 0
+  MinTimeArrivalToDeparture: 5
+  MaxTimeArrivalToDeparture: 10

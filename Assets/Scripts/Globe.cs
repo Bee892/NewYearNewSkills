@@ -9,8 +9,6 @@ using UnityEngine;
 
 public class Globe : MonoBehaviour
 {
-    public Settings MainSettings;
-    
     private bool rotating;
     private float rotationSensitivity;
     private Vector3 mousePos;
@@ -37,7 +35,7 @@ public class Globe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rotationSensitivity = MainSettings.RotationSpeed;
+        rotationSensitivity = GameManager.Instance.Settings.RotationSpeed;
     }
 
     // Update is called once per frame
