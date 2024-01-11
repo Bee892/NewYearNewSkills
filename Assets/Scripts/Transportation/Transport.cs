@@ -6,7 +6,6 @@ using static Constants;
 
 public class Transport : MonoBehaviour
 {
-    protected Era era;
     protected float timeBetweenMovements;
     protected TransportRoute route;
     protected Node currentNode;
@@ -19,9 +18,15 @@ public class Transport : MonoBehaviour
     protected float timeSinceLastArrivalCheck;
     protected System.Random rnd = new System.Random();
     [SerializeField] protected GameObject visual;
+    public TransportSO TransportSettings;
 
-    // Start is called before the first frame update
-    void Start()
+	private void Awake()
+	{
+		visual = Instantiate(TransportSettings.visual, transform);
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
         timeSinceArrival = 0;
         timeSinceLastArrivalCheck = 0;
