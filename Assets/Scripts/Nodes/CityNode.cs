@@ -5,13 +5,13 @@ using static Constants;
 
 public class CityNode : Node
 {
-    protected CityEra era;
+    protected Era cityEra;
 
-    public CityEra Era
+    public Era CityEra
     {
         get
         {
-            return era;
+            return cityEra;
         }
     }
 
@@ -28,6 +28,11 @@ public class CityNode : Node
     }
 
 	public override void Selected()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Setup()
 	{
 		throw new System.NotImplementedException();
 	}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MineNode : ResourceNode
+public class Water : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,9 +15,4 @@ public abstract class MineNode : ResourceNode
     {
         
     }
-
-	public override void Setup()
-	{
-		throw new System.NotImplementedException();
-	}
 }
