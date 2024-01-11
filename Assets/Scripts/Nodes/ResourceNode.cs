@@ -7,6 +7,13 @@ public abstract class ResourceNode : Node
 {
     [Range(MinYield, MaxYield)] protected float resourceYield;
     protected ResourceType type;
+    public float resourceGeneration;
+    public float totalResourceGenerated;
+    public float maxResourcesGenerated;
+    public float timeSpanForNodeToReplenish;
+    public float resourceStored;
+    public CityNode City;
+    public int[] eraMultipliers;
 
     public float ResourceYield
     {
@@ -15,31 +22,30 @@ public abstract class ResourceNode : Node
             return resourceYield;
         }
     }
-
     public ResourceType Type
     {
         get { return type; }
     }
-
-    public ResourceYieldCategory ResourceYieldCategory
+    public IEnumerator Generation()
     {
-        get
+        if (totalResourceGenerated < maxResourcesGenerated)
         {
-            ResourceYieldCategory prevCat = 0;
-            foreach (KeyValuePair<ResourceYieldCategory, float> cat in ResourceYieldMinValues)
-            {
-                if (cat.Value > resourceYield)
-                {
-                    break;
-                }
-
-                prevCat = cat.Key;
-            }
-
-            return prevCat;
+            resourceStored += resourceGeneration;
+            totalResourceGenerated += resourceGeneration;
         }
+        else
+        {
+            StartCoroutine(nodeReplenish());
+        }
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(Generation());
     }
 
+    public IEnumerator nodeReplenish()
+    {
+        yield return new WaitForSeconds(timeSpanForNodeToReplenish);
+        totalResourceGenerated = 0;
+    }
     // Start is called before the first frame update
     void Start()
     {

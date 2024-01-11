@@ -21,7 +21,7 @@ public class Constants
     // Resources
     public enum ResourceType
     {
-        Food,
+        Food = 0,
         Minerals,
         Metal,
         Fuel
@@ -50,5 +50,19 @@ public class Constants
         Primitive,
         Modern,
         Futuristic
+    }
+    public enum TransportationTypes
+    {
+        Boat,
+        Train,
+        Road,
+        Air
+    }
+    public enum cityAspects
+    {
+        Education,
+        Production,
+        Infrastructure,
+        Technology
     }
 }
