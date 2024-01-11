@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using TMPro;
+using System.Security.Cryptography;
 
 public class SphereGenerator : MonoBehaviour
 {
@@ -14,8 +16,19 @@ public class SphereGenerator : MonoBehaviour
     public int numberOfHexagons;
     public int result;
     public GameObject tilePrefab;
+    public float rotation;
+    public int verticesCount;
+    List<Vector3> closestObjects;
+    int index;
+    Vector3[] pointArray;
+    // List to store tile positions
+    private List<Vector3> tilePositions = new List<Vector3>();
+
+    // List to store outlined vertices
+    private List<Vector3> outlinedVertices = new List<Vector3>();
 
     private Dictionary<int, int> midpointCache = new Dictionary<int, int>();
+
 
     void Start()
     {
@@ -151,8 +164,28 @@ public class SphereGenerator : MonoBehaviour
         GameObject emptyObject = Instantiate(tilePrefab);
         emptyObject.transform.parent = transform;
         emptyObject.transform.position = position;
+        emptyObject.name = "Tile" + totalCenters;
         Vector3 normal = position.normalized;
         emptyObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal);
+        rotation = (30 / radius) * (radius - emptyObject.transform.position.y);
+        tilePositions.Add(position);
+        RotateTileAroundNormal(emptyObject, new Vector3(0, rotation, 0));
+    }
+
+    public void RotateTileAroundNormal(GameObject tile, Vector3 rotation)
+    {
+        // Ensure the tile is a child of the sphere
+        if (tile.transform.parent == transform)
+        {
+            Vector3 normal = tile.transform.position.normalized;
+
+            // Rotate the tile around its normal axis
+            tile.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal) * Quaternion.Euler(rotation);
+        }
+        else
+        {
+            Debug.LogWarning("The provided GameObject is not a child of the sphere.");
+        }
     }
 
 
@@ -214,6 +247,20 @@ public class SphereGenerator : MonoBehaviour
 
     void OutlineEdge(Vector3 point1, Vector3 point2)
     {
+        // Calculate the midpoint of the edge
+        Vector3 midpoint = (point1 + point2) / 2f;
+
+        // Calculate the direction from the center of the sphere to the midpoint
+        Vector3 centerToMidpoint = midpoint.normalized;
+
+        // Calculate the offset to make the edges appear bigger in the up direction
+        float offset = 0.3f; // Adjust this value to control the size of the offset
+        Vector3 offsetVector = centerToMidpoint * offset;
+
+        // Calculate the new positions for the edge points with the offset
+        Vector3 newPoint1 = point1 + offsetVector;
+        Vector3 newPoint2 = point2 + offsetVector;
+
         GameObject edgeObject = new GameObject("Edge");
         edgeObject.transform.parent = transform;
 
@@ -224,8 +271,20 @@ public class SphereGenerator : MonoBehaviour
         lineRenderer.startColor = outlineColor;
         lineRenderer.endColor = outlineColor;
 
-        lineRenderer.SetPosition(0, point1);
-        lineRenderer.SetPosition(1, point2);
+        lineRenderer.SetPosition(0, newPoint1);
+        lineRenderer.SetPosition(1, newPoint2);
+
+        if (!outlinedVertices.Contains(newPoint1))
+        {
+            outlinedVertices.Add(newPoint1);
+            verticesCount++;
+        }
+
+        if (!outlinedVertices.Contains(newPoint2))
+        {
+            outlinedVertices.Add(newPoint2);
+            verticesCount++;
+        }
     }
 
 }
