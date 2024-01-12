@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using TMPro;
+using System.Security.Cryptography;
 
 public class SphereGenerator : MonoBehaviour
 {
@@ -14,8 +16,24 @@ public class SphereGenerator : MonoBehaviour
     public int numberOfHexagons;
     public int result;
     public GameObject tilePrefab;
+    public float rotation;
+    public int verticesCount;
+    public GameObject Tiles;
+    public GameObject edgesContainer;
+    private List<LineRenderer> edgeRenderers = new List<LineRenderer>();
+    private List<Vector3> initialEdgeOffsets = new List<Vector3>();
+    int generations;
+    List<Vector3> closestObjects;
+    int index;
+    Vector3[] pointArray;
+    // List to store tile positions
+    private List<Vector3> tilePositions = new List<Vector3>();
+
+    // List to store outlined vertices
+    private List<Vector3> outlinedVertices = new List<Vector3>();
 
     private Dictionary<int, int> midpointCache = new Dictionary<int, int>();
+    Mesh mesh;
 
     void Start()
     {
@@ -25,17 +43,17 @@ public class SphereGenerator : MonoBehaviour
 
     void GenerateConwaySphere()
     {
-        GameObject sphereObject = new GameObject("ConwaySphere");
-        sphereObject.transform.parent = transform;
 
-        MeshFilter meshFilter = sphereObject.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = sphereObject.AddComponent<MeshRenderer>();
-        meshRenderer.material = sphereMaterial;
+            GameObject sphereObject = new GameObject("ConwaySphere");
+            sphereObject.transform.parent = transform;
 
-        Mesh mesh = GenerateIcosphere(subdivisions);
+            MeshFilter meshFilter = this.gameObject.AddComponent<MeshFilter>();
+            MeshRenderer meshRenderer = this.gameObject.AddComponent<MeshRenderer>();
+            meshRenderer.material = sphereMaterial;
+            mesh = GenerateIcosphere(subdivisions);
         meshFilter.mesh = mesh;
 
-        OutlinePentagonHexagonEdges(mesh);
+        OutlinePentagonHexagonEdges();
     }
 
     void Subdivide(List<Vector3> vertices, ref List<int> triangles)
@@ -135,12 +153,6 @@ public class SphereGenerator : MonoBehaviour
             Vector3 midpoint = (vertices[v1] + vertices[v2]).normalized * radius;
             vertices.Add(midpoint);
             midpointCache.Add(key, vertices.Count - 1);
-            if (totalCenters < numberOfHexagons)
-            {
-                CreateEmptyObject(midpoint, "Node Position" + (totalCenters + 1));
-
-                totalCenters++;
-            }
             return vertices.Count - 1;
         }
 
@@ -151,15 +163,78 @@ public class SphereGenerator : MonoBehaviour
         GameObject emptyObject = Instantiate(tilePrefab);
         emptyObject.transform.parent = transform;
         emptyObject.transform.position = position;
+        emptyObject.name = "Tile" + totalCenters;
         Vector3 normal = position.normalized;
         emptyObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal);
+        rotation = (30 / radius) * (radius - emptyObject.transform.position.y);
+        tilePositions.Add(position);
+        RotateTileAroundNormal(emptyObject, new Vector3(0, rotation, 0));
+        emptyObject.transform.parent = Tiles.transform;
+    }
+
+    public void RotateTileAroundNormal(GameObject tile, Vector3 rotation)
+    {
+        // Ensure the tile is a child of the sphere
+        if (tile.transform.parent == transform)
+        {
+            Vector3 normal = tile.transform.position.normalized;
+
+            // Rotate the tile around its normal axis
+            tile.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal) * Quaternion.Euler(rotation);
+        }
+        else
+        {
+            Debug.LogWarning("The provided GameObject is not a child of the sphere.");
+        }
+    }
+
+    void CreateEdges()
+    {
+        // Clear existing edges
+        foreach (LineRenderer lineRenderer in edgeRenderers)
+        {
+            Destroy(lineRenderer.gameObject);
+        }
+        edgeRenderers.Clear();
+
+        List<Vector3> vertices = new List<Vector3>(GetComponent<MeshFilter>().mesh.vertices);
+        List<int> triangles = new List<int>(GetComponent<MeshFilter>().mesh.triangles);
+        int triangleCount = triangles.Count / 3;
+
+        for (int i = 0; i < triangleCount; i++)
+        {
+            int v1 = triangles[i * 3];
+            int v2 = triangles[i * 3 + 1];
+            int v3 = triangles[i * 3 + 2];
+
+            int center = GetMidpoint(vertices, v1, v2, v3);
+
+            int edgeKey1 = (Mathf.Min(v1, v2) << 16) + Mathf.Max(v1, v2);
+            int edgeKey2 = (Mathf.Min(v2, v3) << 16) + Mathf.Max(v2, v3);
+            int edgeKey3 = (Mathf.Min(v3, v1) << 16) + Mathf.Max(v3, v1);
+
+            if (midpointCache.ContainsKey(edgeKey1) && midpointCache.ContainsKey(edgeKey2) && midpointCache.ContainsKey(edgeKey3))
+            {
+                OutlineEdge(vertices[midpointCache[edgeKey1]], vertices[center]);
+                OutlineEdge(vertices[midpointCache[edgeKey2]], vertices[center]);
+                OutlineEdge(vertices[midpointCache[edgeKey3]], vertices[center]);
+            }
+        }
     }
 
 
-    void OutlinePentagonHexagonEdges(Mesh mesh)
+    void OutlinePentagonHexagonEdges()
     {
-        List<Vector3> vertices = new List<Vector3>(mesh.vertices);
-        List<int> triangles = new List<int>(mesh.triangles);
+        if (edgeRenderers.Count > 0)
+        {
+            foreach (LineRenderer lineRenderer in edgeRenderers)
+            {
+                Destroy(lineRenderer.gameObject);
+            }
+            edgeRenderers.Clear();
+        }
+        List<Vector3> vertices = new List<Vector3>(GetComponent<MeshFilter>().mesh.vertices);
+        List<int> triangles = new List<int>(GetComponent<MeshFilter>().mesh.triangles);
 
         int triangleCount = triangles.Count / 3;
 
@@ -214,18 +289,75 @@ public class SphereGenerator : MonoBehaviour
 
     void OutlineEdge(Vector3 point1, Vector3 point2)
     {
+        // Calculate the midpoint of the edge
+        Vector3 midpoint = (point1 + point2) / 2f;
+
+        // Calculate the direction from the center of the sphere to the midpoint
+        Vector3 centerToMidpoint = midpoint.normalized;
+
+        // Calculate the offset to make the edges appear bigger in the up direction
+        float offset = 0.3f; // Adjust this value to control the size of the offset
+        Vector3 offsetVector = centerToMidpoint * offset;
+
+        // Calculate the new positions for the edge points with the offset
+        Vector3 newPoint1 = point1 + offsetVector;
+        Vector3 newPoint2 = point2 + offsetVector;
+
         GameObject edgeObject = new GameObject("Edge");
         edgeObject.transform.parent = transform;
 
         LineRenderer lineRenderer = edgeObject.AddComponent<LineRenderer>();
+        edgeRenderers.Add(lineRenderer);
         lineRenderer.material = outlineMaterial;
         lineRenderer.startWidth = outlineWidth;
         lineRenderer.endWidth = outlineWidth;
         lineRenderer.startColor = outlineColor;
         lineRenderer.endColor = outlineColor;
 
-        lineRenderer.SetPosition(0, point1);
-        lineRenderer.SetPosition(1, point2);
+        lineRenderer.SetPosition(0, newPoint1);
+        lineRenderer.SetPosition(1, newPoint2);
+
+        if (!outlinedVertices.Contains(newPoint1))
+        {
+            outlinedVertices.Add(newPoint1);
+            verticesCount++;
+        }
+
+        if (!outlinedVertices.Contains(newPoint2))
+        {
+            outlinedVertices.Add(newPoint2);
+            verticesCount++;
+        }
+    }
+    void Update()
+    {
+        OutlinePentagonHexagonEdges();
+    }
+
+
+    void CreateEdgesContainer()
+    {
+        edgesContainer = new GameObject("EdgesContainer");
+        edgesContainer.transform.parent = transform; // Make the container a child of the sphere
+    }
+
+    void UpdateEdgesPosition()
+    {
+        foreach (LineRenderer lineRenderer in edgeRenderers)
+        {
+            Vector3 point1 = lineRenderer.GetPosition(0);
+            Vector3 point2 = lineRenderer.GetPosition(1);
+
+            
+            Vector3 position = transform.position;
+            // Update the positions based on the sphere's current position
+            Vector3 newPoint1 = position + point1;
+            Vector3 newPoint2 = position + point2;
+            if(newPoint1!=point1)
+            lineRenderer.SetPosition(0, newPoint1);
+            if(newPoint2!=point2)
+            lineRenderer.SetPosition(1, newPoint2);
+        }
     }
 
 }
