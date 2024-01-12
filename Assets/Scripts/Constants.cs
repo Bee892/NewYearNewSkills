@@ -45,24 +45,17 @@ public class Constants
 	};
 
     // Cities
-    public enum CityEra
+    public enum Era
     {
         Primitive,
         Modern,
         Futuristic
     }
-    public enum TransportationTypes
-    {
-        Boat,
-        Train,
-        Road,
-        Air
-    }
-    public enum cityAspects
-    {
-        Education,
-        Production,
-        Infrastructure,
-        Technology
-    }
+
+
+
+
+
+    public const float ChanceOfDeparturePerSecond = 0.3f;
+
 }

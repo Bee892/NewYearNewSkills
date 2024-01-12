@@ -5,18 +5,13 @@ using static Constants;
 
 public class CityNode : Node
 {
-    protected CityEra era;
-    public float[] resourcesStored; 
-    public float[] resourcesConsumption; // positive is production, negative is cosumption]
-    public float money;
-    public float[] upgradeCost;
-    public bool[] cityAspects;
+    protected Era era;
 
-    public CityEra Era
+    public Era CityEra
     {
         get
         {
-            return era;
+            return cityEra;
         }
     }
 
@@ -49,23 +44,4 @@ public class CityNode : Node
 	{
 		throw new System.NotImplementedException();
 	}
-    public void UpgradeAspect(int index)
-    {
-        if (!cityAspects[index]&&(int)era<2&&resourcesStored[0] > upgradeCost[0]&& resourcesStored[1] > upgradeCost[1]&&resourcesStored[2] > upgradeCost[2]&& resourcesStored[3] > upgradeCost[3])
-        {
-            cityAspects[index] = true;
-        }
-    }
-    public void UpgradeCity()
-    {
-        if (cityAspects[0] && cityAspects[1] && cityAspects[2] && cityAspects[3]) 
-        {
-            era++;
-            for (int i = 0; i < cityAspects.Length; i++)
-            {
-                cityAspects[i] = false;
-            }
-        }
-       ResourceNode[] resourceNodes = GetComponentsInChildren<ResourceNode>();
-    }
 }
