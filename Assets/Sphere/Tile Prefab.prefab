@@ -100,11 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae8221f0f158664faa408cbda04b676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 100
-  isRotating: 0
-  transmissionRadius: 0.5
-  freezed: 0
-  numberOfCollisions: 0
   type: 0
 --- !u!135 &4556428927287014098
 SphereCollider:

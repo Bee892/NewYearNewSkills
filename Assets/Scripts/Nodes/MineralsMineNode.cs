@@ -10,7 +10,7 @@ public class MineralsMineNode : MineNode
     private void Awake()
     {
         type = ResourceType.Minerals;
-        StartCoroutine(Generation());
+        
     }
    
 
