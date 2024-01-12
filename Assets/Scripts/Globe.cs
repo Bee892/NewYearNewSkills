@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Constants;
 
 public class Globe : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class Globe : MonoBehaviour
 
     public void Setup(int numOfCities, int numOfFuel, int numOfFood, int numOfMetal, int numOfMinerals)
     {
-        List<GameObject> objs = GameObject.FindGameObjectsWithTag("Node").ToList();
+        List<Tile> objs = FindObjectsByType<Tile>(FindObjectsSortMode.None).ToList();
         List<int> takenObjIndices = new List<int>();
         System.Random rnd = new System.Random();
 
@@ -91,13 +92,13 @@ public class Globe : MonoBehaviour
         NodeManager.Instance.Setup(nodes);
 	}
 
-    private void CreateRandomNodes<T>(int n, ref List<GameObject> objs, ref List<int> takenObjIndices, bool allowLand = true, bool allowWater = true) where T : Node
+    private void CreateRandomNodes<T>(int n, ref List<Tile> objs, ref List<int> takenObjIndices, bool allowLand = true, bool allowWater = true) where T : Node
     {
         System.Random rnd = new System.Random();
 		for (int i = 0; i < n; i++)
 		{
 			int index = rnd.Next(objs.Count);
-			while (takenObjIndices.Contains(index) || (!allowLand && objs[index].GetComponent<Land>() != null) || (!allowWater && objs[index].GetComponent<Water>() != null))
+			while (takenObjIndices.Contains(index) || (!allowLand && objs[index].type == LandSeaDesignation.Land) || (!allowWater && objs[index].type == LandSeaDesignation.Sea))
 			{
 				index = rnd.Next(objs.Count);
 			}
