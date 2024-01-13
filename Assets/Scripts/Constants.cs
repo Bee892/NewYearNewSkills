@@ -18,6 +18,12 @@ public class Constants
         Sea
     }
 
+    public enum NodeType
+    {
+        City,
+        Resource
+    }
+
     // Resources
     public enum ResourceType
     {
@@ -53,5 +59,21 @@ public class Constants
     }
 
     // Transportation
+    public enum TransportType
+    {
+        Train,
+        Truck,
+        Plane,
+        Boat
+    }
+
     public const float ChanceOfDeparturePerSecond = 0.3f;
+
+    public static readonly Dictionary<TransportType, string> TransportPrefabs = new Dictionary<TransportType, string>() 
+    {
+        { TransportType.Train, "" },
+        { TransportType.Truck, "" },
+        { TransportType.Plane, "" },
+        { TransportType.Boat, "" }
+    };
 }

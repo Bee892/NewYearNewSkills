@@ -7,6 +7,7 @@ using UnityEngine;
 public class NodeManager : MonoBehaviour
 {
     List<Node> nodes = new List<Node>();
+    List<CityNode> cityNodes = new List<CityNode>();
 
     private class LinkedNode
     {
@@ -105,9 +106,10 @@ public class NodeManager : MonoBehaviour
         return null;
     }
 
-    public void Setup(List<Node> newNodes)
+    public void Setup(List<Node> newNodes, List<CityNode> cityNodes)
     {
         nodes = newNodes;
+        this.cityNodes = cityNodes;
 
 		foreach (Node n in nodes)
 		{
@@ -125,6 +127,7 @@ public class NodeManager : MonoBehaviour
 					break;
 				}
 			}
+
 			n.Setup();
 		}
 	}

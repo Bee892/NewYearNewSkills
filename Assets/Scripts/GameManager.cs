@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public Settings Settings;
     private static GameManager instance = null;
+    public GameObject TradeRoutesGO;
     public static GameManager Instance
     {
         get

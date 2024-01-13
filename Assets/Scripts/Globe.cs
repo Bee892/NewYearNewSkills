@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using static Constants;
 
@@ -69,7 +70,7 @@ public class Globe : MonoBehaviour
         List<int> takenObjIndices = new List<int>();
         System.Random rnd = new System.Random();
 
-        CreateRandomNodes<CityNode>(numOfCities, ref objs, ref takenObjIndices, true, false);
+        List<CityNode> cityNodes = CreateRandomNodes<CityNode>(numOfCities, ref objs, ref takenObjIndices, true, false);
 		CreateRandomNodes<FuelNode>(numOfFuel, ref objs, ref takenObjIndices);
 		CreateRandomNodes<FarmNode>(numOfFood, ref objs, ref takenObjIndices);
 		CreateRandomNodes<MetalMineNode>(numOfMetal, ref objs, ref takenObjIndices, true, false);
@@ -89,11 +90,12 @@ public class Globe : MonoBehaviour
             }
         }
 
-        NodeManager.Instance.Setup(nodes);
+        NodeManager.Instance.Setup(nodes, cityNodes);
 	}
 
-    private void CreateRandomNodes<T>(int n, ref List<Tile> objs, ref List<int> takenObjIndices, bool allowLand = true, bool allowWater = true) where T : Node
+    private List<T> CreateRandomNodes<T>(int n, ref List<Tile> objs, ref List<int> takenObjIndices, bool allowLand = true, bool allowWater = true) where T : Node
     {
+        List<T> nodeList = new List<T>();
         System.Random rnd = new System.Random();
 		for (int i = 0; i < n; i++)
 		{
@@ -102,8 +104,57 @@ public class Globe : MonoBehaviour
 			{
 				index = rnd.Next(objs.Count);
 			}
-			objs[index].AddComponent<T>();
+			nodeList.Add(objs[index].AddComponent<T>());
 			takenObjIndices.Add(index);
 		}
+
+        return nodeList;
 	}
+
+    public TransportRoute GenerateTradeRoute(CityNode cityStart, CityNode cityEnd, TransportType type, bool persist, Action<Node, Node> arrivalCallback)
+    {
+        return GenerateTradeRoute((Node) cityStart,(Node) cityEnd, type, persist, arrivalCallback);
+    }
+
+	public TransportRoute GenerateTradeRoute(CityNode city, ResourceNode resource, TransportType type, bool persist, Action<Node, Node> arrivalCallback)
+	{
+		return GenerateTradeRoute((Node) city, (Node) resource, type, persist, arrivalCallback);
+	}
+
+    private TransportRoute GenerateTradeRoute(Node start, Node end, TransportType type, bool persist, Action<Node, Node> arrivalCallback)
+    {
+		LandSeaDesignation landSea = start.LandSeaDesignation;
+        Transport startVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[type]), start.transform);
+        startVehicle.gameObject.SetActive(false);
+		Dictionary<Node, Transport> vehicles = new Dictionary<Node, Transport>() { { start, startVehicle } };
+		List<Node> nodes = NodeManager.Instance.GetShortestPath(start, end).ToList();
+
+		if (type != TransportType.Plane)
+        {
+			for (int i = 1; i < nodes.Count; i++)
+			{
+				Node n = nodes[i];
+				if (n.LandSeaDesignation != landSea)
+				{
+                    Transport newVehicle = null;
+
+                    if (n.LandSeaDesignation == LandSeaDesignation.Sea)
+                    {
+                        newVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[TransportType.Boat]), start.transform);
+					}
+                    else
+                    {
+						newVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[type]), start.transform);
+					}
+
+                    vehicles.Add(n, newVehicle);
+                    landSea = n.LandSeaDesignation;
+				}
+			}
+		}
+
+        TransportRoute route = Instantiate(new GameObject(), GameManager.Instance.TradeRoutesGO.transform).AddComponent<TransportRoute>();
+		route.Setup(persist, nodes, vehicles, arrivalCallback);
+        return route;
+    }
 }
