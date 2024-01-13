@@ -11,6 +11,7 @@ using static Constants;
 
 public class Globe : MonoBehaviour
 {
+    private static Globe instance;
     private bool rotating;
     private float rotationSensitivity;
     private Vector3 mousePos;
@@ -34,10 +35,19 @@ public class Globe : MonoBehaviour
         }
     }
 
+    public static Globe Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         rotationSensitivity = GameManager.Instance.Settings.RotationSpeed;
+        instance = this;
     }
 
     // Update is called once per frame
@@ -111,17 +121,17 @@ public class Globe : MonoBehaviour
         return nodeList;
 	}
 
-    public TransportRoute GenerateTradeRoute(CityNode cityStart, CityNode cityEnd, TransportType type, bool persist, Action<Node, Node> arrivalCallback)
+    public TransportRoute GenerateTradeRoute(CityNode cityStart, CityNode cityEnd, TransportType type, bool persist, Resource resource, Action<CityNode, Node, Resource> arrivalCallback)
     {
-        return GenerateTradeRoute((Node) cityStart,(Node) cityEnd, type, persist, arrivalCallback);
+        return GenerateTradeRoute((Node) cityStart,(Node) cityEnd, type, persist, arrivalCallback, resource);
     }
 
-	public TransportRoute GenerateTradeRoute(CityNode city, ResourceNode resource, TransportType type, bool persist, Action<Node, Node> arrivalCallback)
+	public TransportRoute GenerateTradeRoute(CityNode city, ResourceNode resourceNode, TransportType type, bool persist, Action<CityNode, Node, Resource> arrivalCallback)
 	{
-		return GenerateTradeRoute((Node) city, (Node) resource, type, persist, arrivalCallback);
+		return GenerateTradeRoute((Node) city, (Node) resourceNode, type, persist, arrivalCallback);
 	}
 
-    private TransportRoute GenerateTradeRoute(Node start, Node end, TransportType type, bool persist, Action<Node, Node> arrivalCallback)
+    private TransportRoute GenerateTradeRoute(Node start, Node end, TransportType type, bool persist, Action<CityNode, Node, Resource> arrivalCallback, Resource resource = null)
     {
 		LandSeaDesignation landSea = start.LandSeaDesignation;
         Transport startVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[type]), start.transform);
@@ -154,7 +164,7 @@ public class Globe : MonoBehaviour
 		}
 
         TransportRoute route = Instantiate(new GameObject(), GameManager.Instance.TradeRoutesGO.transform).AddComponent<TransportRoute>();
-		route.Setup(persist, nodes, vehicles, arrivalCallback);
+		route.Setup(persist, nodes, vehicles, resource, arrivalCallback);
         return route;
     }
 }

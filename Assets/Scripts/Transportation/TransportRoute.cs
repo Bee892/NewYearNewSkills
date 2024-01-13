@@ -18,11 +18,20 @@ public class TransportRoute : MonoBehaviour
 	private float timeSinceArrival;
 	private float timeSinceLastArrivalCheck;
 	private System.Random rnd = new System.Random();
-	private Action<Node, Node> arrivalCallback;
+	private Action<CityNode, Node, Resource> arrivalCallback;
+	private Resource resource;
 
 	public bool ReverseRoute
 	{
 		get { return reverseRoute; }
+	}
+
+	public Resource Resource
+	{
+		get
+		{
+			return resource;
+		}
 	}
 
 	/// <summary>
@@ -67,11 +76,12 @@ public class TransportRoute : MonoBehaviour
 	/// <param name="nodes">A list of all nodes that make up the route, in order from start node to end node.</param>
 	/// <param name="vehicles">The start nodes where all of the vehicles begin in the route.</param>
 	/// <param name="arrivalCallback">The function that's invoked when the final vehicle arrives at the destination.</param>
-    public void Setup(bool persist, List<Node> nodes, Dictionary<Node, Transport> vehicles, Action<Node, Node> arrivalCallback = null)
+    public void Setup(bool persist, List<Node> nodes, Dictionary<Node, Transport> vehicles, Resource resource, Action<CityNode, Node, Resource> arrivalCallback = null)
     {
 		Nodes = nodes;
 		persistent = persist;
 		Vehicles = vehicles;
+		this.resource = resource;
 		this.arrivalCallback = arrivalCallback;
 	}
 
@@ -111,7 +121,7 @@ public class TransportRoute : MonoBehaviour
 	{
 		if (arrivalCallback != null)
 		{
-			arrivalCallback.Invoke(Nodes[0], Nodes[Nodes.Count - 1]);
+			arrivalCallback.Invoke((CityNode)Nodes[0], Nodes[Nodes.Count - 1], resource);
 		}
 		foreach (KeyValuePair<Node, Transport> pair in Vehicles)
 		{

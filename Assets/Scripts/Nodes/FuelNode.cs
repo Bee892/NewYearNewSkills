@@ -7,7 +7,7 @@ public class FuelNode : ResourceNode
 {
 	private void Awake()
 	{
-		type = ResourceType.Fuel;
+		resourceType = ResourceType.Fuel;
 	}
 
 	// Start is called before the first frame update
