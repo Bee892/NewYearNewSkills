@@ -17,6 +17,7 @@ public abstract class ResourceNode : Node
     public CityNode City;
     public int[] eraMultipliers = { 1, 5, 12 };
     public bool used;
+    public NodeManager nodeManager;
 
     public float ResourceYield
     {
@@ -60,6 +61,16 @@ public abstract class ResourceNode : Node
     {
         
     }
+    public void OnMouseDown()
+    {
+        if (nodeManager.isSelectingTarget)
+        {
+            nodeManager.target = this.gameObject;
+            nodeManager.isSelectingTarget = false;
+
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
