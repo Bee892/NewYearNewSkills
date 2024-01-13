@@ -34,6 +34,7 @@ public class MineralsMineNode : MineNode
 
 	public override void Setup()
 	{
-		throw new System.NotImplementedException();
+		base.Setup();
+		passable = true;
 	}
 }

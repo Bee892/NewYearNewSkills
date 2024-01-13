@@ -37,7 +37,10 @@ public abstract class Node : MonoBehaviour
         
     }
 
-    public abstract void Setup();
+    public virtual void Setup()
+    {
+        landSeaDesignation = GetComponent<Tile>().type;
+	}
 
     public abstract void Selected();
 }

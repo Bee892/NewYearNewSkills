@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class NodeSettingsSO : ScriptableObject
 {
-    
+    public GameObject Visual;
 }

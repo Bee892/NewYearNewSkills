@@ -163,7 +163,7 @@ public class CityNode : Node
         if (!destination.used)
         {
             destination.City = this;
-            ResourceType type = destination.Type;
+            ResourceType type = destination.ResourceType;
             resourcesConsumption[(int)type] += quantity;
             destination.resourceTransmitted += quantity;
             destination.used = true;

@@ -23,6 +23,7 @@ public class BarrenNode : Node
 
 	public override void Setup()
 	{
-		throw new System.NotImplementedException();
+        base.Setup();
+        passable = true;
 	}
 }

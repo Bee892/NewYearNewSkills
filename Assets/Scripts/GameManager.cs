@@ -15,10 +15,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+	private void Awake()
+	{
+		instance = this;
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
-        instance = this;
+        
     }
 
     // Update is called once per frame

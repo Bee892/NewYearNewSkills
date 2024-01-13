@@ -7,8 +7,8 @@ using UnityEngine;
 public class Constants
 {
     // Zooming
-    public const float MinZoomLevel = 0;
-    public const float MaxZoomLevel = 0.6f;
+    public const float MinZoomLevel = -7;
+    public const float MaxZoomLevel = -4;
     public const float ZoomMod = 0.2f;
 
     // Nodes
@@ -21,11 +21,26 @@ public class Constants
     public enum NodeType
     {
         City,
-        Resource
+        Resource,
+        Barren
     }
 
-    // Resources
-    public enum ResourceType
+    public static readonly Dictionary<NodeType, string> GenericNodePrefabs = new Dictionary<NodeType, string>()
+    {
+        { NodeType.City, "" },
+        { NodeType.Barren, "" }
+    };
+
+	public static readonly Dictionary<ResourceType, string> ResourceNodePrefabs = new Dictionary<ResourceType, string>()
+	{
+		{ ResourceType.Fuel, "" },
+		{ ResourceType.Food, "" },
+		{ ResourceType.Minerals, "" },
+		{ ResourceType.Metal, "" },
+	};
+
+	// Resources
+	public enum ResourceType
     {
         Food = 0,
         Minerals,
