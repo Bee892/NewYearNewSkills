@@ -7,7 +7,7 @@ public class FarmNode : ResourceNode
 {
 	private void Awake()
 	{
-		type = ResourceType.Food;
+		resourceType = ResourceType.Food;
 	}
 
 	// Start is called before the first frame update
