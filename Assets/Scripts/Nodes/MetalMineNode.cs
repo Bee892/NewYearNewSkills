@@ -31,6 +31,6 @@ public class MetalMineNode : MineNode
 	public override void Setup()
 	{
 		base.Setup();
-		passable = true;
+		resourceType = ResourceType.Metal;
 	}
 }

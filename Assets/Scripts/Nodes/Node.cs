@@ -6,7 +6,7 @@ using static Constants;
 public abstract class Node : MonoBehaviour
 {
     protected LandSeaDesignation landSeaDesignation;
-    public List<Node> NeighborNodes;
+    public List<Node> NeighborNodes = new List<Node>();
     protected bool passable;
     protected GameObject visual;
     public NodeSettingsSO Settings;

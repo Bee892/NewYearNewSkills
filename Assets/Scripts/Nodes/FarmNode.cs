@@ -30,6 +30,6 @@ public class FarmNode : ResourceNode
 	public override void Setup()
 	{
 		base.Setup();
-		passable = true;
+		resourceType = ResourceType.Food;
 	}
 }

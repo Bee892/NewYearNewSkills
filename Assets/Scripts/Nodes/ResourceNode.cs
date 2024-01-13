@@ -66,4 +66,11 @@ public abstract class ResourceNode : Node
     {
         
     }
+
+	public override void Setup()
+	{
+		base.Setup();
+        Type = NodeType.Resource;
+        passable = true;
+	}
 }

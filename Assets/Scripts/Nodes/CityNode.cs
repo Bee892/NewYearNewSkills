@@ -228,7 +228,9 @@ public class CityNode : Node
 
     public override void Setup()
     {
-        throw new System.NotImplementedException();
+        base.Setup();
+        Type = NodeType.City;
+        passable = true;
     }
 
     public void UpgradeCityButtom()
