@@ -27,7 +27,7 @@ public class Constants
     // Resources
     public enum ResourceType
     {
-        Food,
+        Food = 0,
         Minerals,
         Metal,
         Fuel
