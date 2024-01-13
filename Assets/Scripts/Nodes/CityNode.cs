@@ -20,7 +20,7 @@ public class CityNode : Node
     public int[] eraMultipliers = { 1, 4, 10 };
     public bool isCityAlive = true;
     public float cityNotCrumbleThreshold;
-    public float cityRevivalThreshold;
+    public float[] cityRevivalThreshold;
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI foodText;
     public TextMeshProUGUI fuelText;
@@ -47,6 +47,13 @@ public class CityNode : Node
     public int aspectIndex;
     public bool isSeingUpgrades;
     public GameObject cancelButton;
+    public GameObject[] icons3;
+    public TextMeshProUGUI[] valuesThresHold;
+    public TextMeshProUGUI deathMessage;
+    public TextMeshProUGUI valuesText;
+    private bool isCrumbling;
+    public GameObject[] buttons;
+    public NodeManager nodeManager;
     //create variable for the vehicle
     public Era CityEra
     {
@@ -68,6 +75,7 @@ public class CityNode : Node
             }
             else
             {
+                isCrumbling = true;
                 if (resourcesStored[i] == 0&& isCityAlive) StartCoroutine(Crumbling());
             }
             if (resourcesStored[i] < 0) resourcesStored[i] = 0; //Limit the resource to 0
@@ -78,7 +86,7 @@ public class CityNode : Node
     {
         if (!isSelectingTarget)
         {
-            //implement code that goes trough the list of cities and deactivates their canvas
+            foreach(CityNode citynode in nodeManager.cityNodes) citynode.canvas.gameObject.SetActive(false);
             canvas.gameObject.SetActive(true);           
         }
         else
@@ -100,17 +108,61 @@ public class CityNode : Node
     {
         if(!isCityAlive)
         {
-            if (resourcesStored[(int)ResourceType.Fuel] > cityRevivalThreshold && resourcesStored[(int)ResourceType.Food] > cityRevivalThreshold)
+
+            if (resourcesStored[(int)ResourceType.Fuel] > cityRevivalThreshold[0] && resourcesStored[(int)ResourceType.Food] > cityRevivalThreshold[1])
             isCityAlive = true;
+            for(int i =0;i<buttons.Length;i++)
+            {
+                buttons[i].SetActive(false);
+            }
         }
+        if(!isCrumbling && isCityAlive)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                icons3[i].SetActive(false);
+                valuesThresHold[i].gameObject.SetActive(false);
+                valuesText.gameObject.SetActive(false);
+                deathMessage.gameObject.SetActive(false);
+            }
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].SetActive(true);
+            }
+        }
+        
     }
 
+    public void Death()
+    {
+        isCityAlive = false;
+        for (int i = 0; i < 2; i++)
+        {
+            icons3[i].SetActive(true);
+            valuesThresHold[i].gameObject.SetActive(true);
+            valuesThresHold[i].text = cityRevivalThreshold[i].ToString();
+            valuesText.gameObject.SetActive(true);
+            deathMessage.gameObject.SetActive(true);
+            valuesText.text = "Requeriments:";
+            deathMessage.text = "City is Dead!";
+        }
+    }
     public IEnumerator Crumbling ()
     {
+        for (int i = 0; i < 2; i++)
+        {
+            icons3[i].SetActive(true);
+            valuesThresHold[i].gameObject.SetActive(true);
+            valuesThresHold[i].text = cityNotCrumbleThreshold.ToString();
+            valuesText.gameObject.SetActive(true);
+            deathMessage.gameObject.SetActive(true);
+            valuesText.text = "Requeriments:";
+            deathMessage.text = "City is Crumbling!";
+        }
         yield return new WaitForSeconds(100f);
-        //implement warning that the city is going to crumble
+        
         if (resourcesStored[(int)ResourceType.Fuel] < cityNotCrumbleThreshold || resourcesStored[(int)ResourceType.Food] < cityNotCrumbleThreshold) 
-        isCityAlive = false;
+        Death();
     }
 
     public override void Selected()
@@ -135,8 +187,11 @@ public class CityNode : Node
         if (cityAspects[0] && cityAspects[1] && cityAspects[2] && cityAspects[3])
         {
             cityEra++;
-            for (int i = 0; i < initialResourcesConsumption.Length; i++)
+            for (int i = 0; i < initialResourcesConsumption.Length; i++) {
                 initialResourcesConsumption[i] = initialResourcesConsumption[i] * eraMultipliers[(int)cityEra];
+                upgradeCost[i] = upgradeCost[i] * eraMultipliers[(int)cityEra];
+                }
+            upgradeCost[4] = upgradeCost[4] * eraMultipliers[(int)cityEra];
             for (int i = 0; i < cityAspects.Length; i++)
             {
                 cityAspects[i] = false;
@@ -163,7 +218,7 @@ public class CityNode : Node
         if (!destination.used)
         {
             destination.City = this;
-            ResourceType type = destination.Type;
+            ResourceType type = destination.ResourceType;
             resourcesConsumption[(int)type] += quantity;
             destination.resourceTransmitted += quantity;
             destination.used = true;

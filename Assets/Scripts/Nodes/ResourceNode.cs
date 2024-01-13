@@ -25,7 +25,7 @@ public abstract class ResourceNode : Node
             return resourceYield;
         }
     }
-    public ResourceType Type
+    public ResourceType ResourceType
     {
         get { return type; }
     }

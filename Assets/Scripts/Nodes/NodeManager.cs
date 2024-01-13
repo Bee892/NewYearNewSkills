@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class NodeManager : MonoBehaviour
 {
-    List<Node> nodes = new List<Node>();
-    List<CityNode> cityNodes = new List<CityNode>();
+    public List<Node> nodes = new List<Node>();
+    public List<CityNode> cityNodes = new List<CityNode>();
 
     private class LinkedNode
     {
