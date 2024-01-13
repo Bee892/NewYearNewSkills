@@ -54,6 +54,8 @@ public class CityNode : Node
     private bool isCrumbling;
     public GameObject[] buttons;
     public NodeManager nodeManager;
+    public Globe globe;
+    public TransportationTypes transportType;
     //create variable for the vehicle
     public Era CityEra
     {
@@ -217,6 +219,7 @@ public class CityNode : Node
         //implement code that creates a trade route
         if (!destination.used)
         {
+            globe.GenerateTradeRoute(this,)
             destination.City = this;
             ResourceType type = destination.ResourceType;
             resourcesConsumption[(int)type] += quantity;
