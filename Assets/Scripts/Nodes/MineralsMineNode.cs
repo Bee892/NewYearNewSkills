@@ -9,7 +9,7 @@ public class MineralsMineNode : MineNode
     public float[] resourcesOfEachCategory; // vector with resources generated on each category, setted on inspector
     private void Awake()
     {
-        type = ResourceType.Minerals;
+        resourceType = ResourceType.Minerals;
         
     }
    

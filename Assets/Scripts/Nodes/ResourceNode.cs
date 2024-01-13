@@ -6,7 +6,7 @@ using static Constants;
 public abstract class ResourceNode : Node
 {
     [Range(MinYield, MaxYield)] protected float resourceYield;
-    protected ResourceType type;
+    protected ResourceType resourceType;
     public Era era;
     public float resourceGeneration;
     public float resourceTransmitted;
@@ -25,9 +25,9 @@ public abstract class ResourceNode : Node
             return resourceYield;
         }
     }
-    public ResourceType Type
+    public ResourceType ResourceType
     {
-        get { return type; }
+        get { return resourceType; }
     }
     public IEnumerator Generation()
     {
