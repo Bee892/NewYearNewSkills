@@ -46,8 +46,10 @@ public class Globe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rotationSensitivity = GameManager.Instance.Settings.RotationSpeed;
+		Settings settings = GameManager.Instance.Settings;
+		rotationSensitivity = settings.RotationSpeed;
         instance = this;
+        Setup(settings.NumStartCities,settings.NumStartFuel, settings.NumStartFood, settings.NumStartMetal, settings.NumStartMinerals);
     }
 
     // Update is called once per frame

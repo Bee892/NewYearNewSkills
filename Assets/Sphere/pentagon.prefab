@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  myRenderer: {fileID: 3745927859073400442}
 --- !u!135 &6432412784582308100
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -102,3 +103,8 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &3745927859073400442 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7635826562936255635, guid: 0c34b9572d758b54bad87b1db0fe13c9, type: 3}
+  m_PrefabInstance: {fileID: 2734861142152082711}
+  m_PrefabAsset: {fileID: 0}

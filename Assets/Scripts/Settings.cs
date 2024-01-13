@@ -13,6 +13,10 @@ public class Settings : ScriptableObject
     // Generation
     public int NumStartCities;
     public int MaxCityResourceStartDist;
+    public int NumStartFuel;
+    public int NumStartFood;
+    public int NumStartMetal;
+    public int NumStartMinerals;
 
     // Transportation
 	public float MinTimeArrivalToDeparture;
