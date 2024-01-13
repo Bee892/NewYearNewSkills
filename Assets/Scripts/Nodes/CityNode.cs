@@ -5,6 +5,7 @@ using UnityEngine;
 using static Constants;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class CityNode : Node
 {
@@ -31,7 +32,8 @@ public class CityNode : Node
     public TextMeshProUGUI message;
     private GameObject target;
     public Canvas canvas;
-    public TextMeshProUGUI value;
+    public GameObject valueContainer;
+    public TMP_InputField value;
     private float valueToBeTransfered;
     public InputField inputField;
     private string userInput;
@@ -46,6 +48,7 @@ public class CityNode : Node
     public GameObject confirmButton;
     public int aspectIndex;
     public bool isSeingUpgrades;
+    public bool isInputingTransferValue;
     public GameObject cancelButton;
     public GameObject[] icons3;
     public TextMeshProUGUI[] valuesThresHold;
@@ -176,7 +179,7 @@ public class CityNode : Node
 
     public override void Selected()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void UpgradeAspect(int index)
@@ -281,9 +284,14 @@ public class CityNode : Node
             isSelectingPersistence = false;
             persistentText.gameObject.SetActive(false);
             yesButton.SetActive(false); noButton.SetActive(false);
-            //implement a way for the player to input the value
-            Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
-            resource.Type = resourceType;
+            valueContainer.SetActive(true);
+			isInputingTransferValue = true;
+			yield return new WaitUntil(() => !isInputingTransferValue);
+            valueToBeTransfered = float.Parse(value.text);
+			valueContainer.SetActive(false);
+			value.text = "";
+            
+			Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
             TransportRoute transportRoute = globe.GenerateTradeRoute(this, nodeManager.target.GetComponent<CityNode>(), transportType, persistence, resource,CreateTradeRouteBetweenCities);
             
             cancelButton.SetActive(false);
@@ -384,5 +392,13 @@ public class CityNode : Node
         if(b==1) { u = true; } else { u = false; }
         persistence = u;
         isSelectingPersistence = false;
+    }
+
+    public void InputValue()
+    {
+        if (float.TryParse(value.text, out float inputVal))
+        {
+            isInputingTransferValue = false;
+        }
     }
 }
