@@ -275,8 +275,12 @@ public class CityNode : Node
             yield return new WaitUntil(() => !IsSelectingVehicle);
             for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
             isSelectingPersistence = true;
+            persistentText.gameObject.SetActive(true);
             yesButton.SetActive(true); noButton.SetActive(true);
             yield return new WaitUntil(() => !isSelectingPersistence);
+            isSelectingPersistence = false;
+            persistentText.gameObject.SetActive(false);
+            yesButton.SetActive(false); noButton.SetActive(false);
             //implement a way for the player to input the value
             Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
             resource.Type = resourceType;
@@ -356,11 +360,18 @@ public class CityNode : Node
         }
         if(isSeingUpgrades)
         {
+            isSeingUpgrades = false;
             for (int i = 0; i < icons2.Length; i++)
             {
                 icons2[i].SetActive(false);
                 upgradeTexts[i].gameObject.SetActive(false);
             }
+        }
+        if(isSelectingPersistence)
+        {
+            isSelectingPersistence = false;
+            persistentText.gameObject.SetActive(false);
+            yesButton.SetActive(false); noButton.SetActive(false);
         }
         cancelButton.SetActive(false);
     }
