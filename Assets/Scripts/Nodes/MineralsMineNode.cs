@@ -5,15 +5,19 @@ using static Constants;
 
 public class MineralsMineNode : MineNode
 {
-	private void Awake()
-	{
-		type = ResourceType.Minerals;
-	}
 
-	// Start is called before the first frame update
-	void Start()
+    public float[] resourcesOfEachCategory; // vector with resources generated on each category, setted on inspector
+    private void Awake()
     {
+        type = ResourceType.Minerals;
         
+    }
+   
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
     }
 
     // Update is called once per frame
@@ -21,6 +25,7 @@ public class MineralsMineNode : MineNode
     {
         
     }
+
 
 	public override void Selected()
 	{
