@@ -8,7 +8,8 @@ public class NodeManager : MonoBehaviour
 {
     public List<Node> nodes = new List<Node>();
     public List<CityNode> cityNodes = new List<CityNode>();
-
+    public bool isSelectingTarget;
+    public GameObject target;
     private class LinkedNode
     {
         public Node n;
