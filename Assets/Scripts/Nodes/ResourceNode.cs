@@ -6,14 +6,17 @@ using static Constants;
 public abstract class ResourceNode : Node
 {
     [Range(MinYield, MaxYield)] protected float resourceYield;
-    protected ResourceType type;
+    protected ResourceType resourceType;
+    public Era era;
     public float resourceGeneration;
+    public float resourceTransmitted;
     public float totalResourceGenerated;
     public float maxResourcesGenerated;
     public float timeSpanForNodeToReplenish;
     public float resourceStored;
     public CityNode City;
-    public int[] eraMultipliers;
+    public int[] eraMultipliers = { 1, 5, 12 };
+    public bool used;
 
     public float ResourceYield
     {
@@ -22,16 +25,18 @@ public abstract class ResourceNode : Node
             return resourceYield;
         }
     }
-    public ResourceType Type
+    public ResourceType ResourceType
     {
-        get { return type; }
+        get { return resourceType; }
     }
     public IEnumerator Generation()
     {
         if (totalResourceGenerated < maxResourcesGenerated)
         {
-            resourceStored += resourceGeneration;
+            resourceStored += resourceGeneration * eraMultipliers[(int)City.CityEra];
             totalResourceGenerated += resourceGeneration;
+            resourceStored -= resourceTransmitted;
+            
         }
         else
         {
@@ -45,6 +50,10 @@ public abstract class ResourceNode : Node
     {
         yield return new WaitForSeconds(timeSpanForNodeToReplenish);
         totalResourceGenerated = 0;
+    }
+    public void activateNode() //activate node when trade route is created
+    {
+        StartCoroutine(Generation());
     }
     // Start is called before the first frame update
     void Start()

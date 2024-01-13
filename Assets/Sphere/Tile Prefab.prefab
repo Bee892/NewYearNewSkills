@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9009386bd5259b1448ab4d35338bf1f9, type: 3}
+      propertyPath: m_TagString
+      value: Node
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96,11 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae8221f0f158664faa408cbda04b676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 100
-  isRotating: 0
-  transmissionRadius: 0.5
-  freezed: 0
-  numberOfCollisions: 0
   type: 0
 --- !u!135 &4556428927287014098
 SphereCollider:

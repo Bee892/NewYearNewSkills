@@ -15,4 +15,9 @@ public abstract class MineNode : ResourceNode
     {
         
     }
+
+	public override void Setup()
+	{
+		throw new System.NotImplementedException();
+	}
 }

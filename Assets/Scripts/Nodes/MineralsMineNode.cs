@@ -9,8 +9,8 @@ public class MineralsMineNode : MineNode
     public float[] resourcesOfEachCategory; // vector with resources generated on each category, setted on inspector
     private void Awake()
     {
-        type = ResourceType.Minerals;
-        StartCoroutine(Generation());
+        resourceType = ResourceType.Minerals;
+        
     }
    
 
@@ -28,6 +28,11 @@ public class MineralsMineNode : MineNode
 
 
 	public override void Selected()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public override void Setup()
 	{
 		throw new System.NotImplementedException();
 	}

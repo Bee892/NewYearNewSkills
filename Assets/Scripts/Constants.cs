@@ -18,6 +18,12 @@ public class Constants
         Sea
     }
 
+    public enum NodeType
+    {
+        City,
+        Resource
+    }
+
     // Resources
     public enum ResourceType
     {
@@ -45,24 +51,29 @@ public class Constants
 	};
 
     // Cities
-    public enum CityEra
+    public enum Era
     {
         Primitive,
         Modern,
         Futuristic
     }
-    public enum TransportationTypes
+
+    // Transportation
+    public enum TransportType
     {
-        Boat,
         Train,
-        Road,
-        Air
+        Truck,
+        Plane,
+        Boat
     }
-    public enum cityAspects
+
+    public const float ChanceOfDeparturePerSecond = 0.3f;
+
+    public static readonly Dictionary<TransportType, string> TransportPrefabs = new Dictionary<TransportType, string>() 
     {
-        Education,
-        Production,
-        Infrastructure,
-        Technology
-    }
+        { TransportType.Train, "" },
+        { TransportType.Truck, "" },
+        { TransportType.Plane, "" },
+        { TransportType.Boat, "" }
+    };
 }
