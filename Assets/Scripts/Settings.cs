@@ -17,16 +17,4 @@ public class Settings : ScriptableObject
     // Transportation
 	public float MinTimeArrivalToDeparture;
 	public float MaxTimeArrivalToDeparture;
-    public float TimeBetweenPrimitiveTruckMovements;
-	public float TimeBetweenModernTruckMovements;
-	public float TimeBetweenFutureTruckMovements;
-	public float TimeBetweenPrimitiveBoatMovements;
-	public float TimeBetweenModernBoatMovements;
-	public float TimeBetweenFutureBoatMovements;
-	public float TimeBetweenPrimitivePlaneMovements;
-	public float TimeBetweenModernPlaneMovements;
-	public float TimeBetweenFuturePlaneMovements;
-	public float TimeBetweenPrimitiveTrainMovements;
-	public float TimeBetweenModernTrainMovements;
-	public float TimeBetweenFutureTrainMovements;
 }

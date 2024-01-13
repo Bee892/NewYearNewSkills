@@ -11,5 +11,5 @@ public class TransportSO : ScriptableObject
     public float FuelConsumptionPerSecond;
     public float ResourceGainPerSecond;
     public LandSeaDesignation LandOrSea;
-
+    public float SecondsBetweenMoves;
 }

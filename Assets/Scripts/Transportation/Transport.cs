@@ -1,24 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using static Constants;
 
 public class Transport : MonoBehaviour
 {
-    protected float timeBetweenMovements;
+    protected List<Node> nodes;
+	protected TransportType type;
     protected TransportRoute route;
     protected Node currentNode;
-    //protected Node destination;
     protected int currentNodeIndex;
-    protected bool reverseRoute;
-    protected float timeSinceLastMove;
-    protected bool arrived;
-    protected float timeSinceArrival;
-    protected float timeSinceLastArrivalCheck;
-    protected System.Random rnd = new System.Random();
-    [SerializeField] protected GameObject visual;
+	protected float timeSinceLastMove;
+	private float timeBetweenMovements;
+	[SerializeField] protected GameObject visual;
     public TransportSO TransportSettings;
+
+    public Node CurrentNode { get { return currentNode; } }
 
 	private void Awake()
 	{
@@ -28,79 +24,66 @@ public class Transport : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        timeSinceArrival = 0;
-        timeSinceLastArrivalCheck = 0;
-        timeSinceLastMove = 0;
-        reverseRoute = false;
-        currentNode = route.Nodes[0];
-        currentNodeIndex = 0;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (arrived)
-        {
-            timeSinceArrival += Time.deltaTime;
-            timeSinceLastArrivalCheck += Time.deltaTime;
-            if (timeSinceLastArrivalCheck >= 1)
-            {
-                timeSinceLastArrivalCheck -= 1;
-                if (rnd.Next(1, 101) <= ChanceOfDeparturePerSecond * 100)
-                {
-                    Depart();
-                }
-            }
-        }
-        else
-        {
-            timeSinceLastMove += Time.deltaTime;
-            if (timeSinceLastMove >= timeBetweenMovements)
-            {
-                Move();
-            }
-        }
-    }
-
-    protected void Depart()
-    {
-        arrived = false;
-        reverseRoute = !reverseRoute;
-        timeSinceLastMove = 0;
-        timeSinceArrival = 0;
-        timeSinceLastArrivalCheck = 0;
-        //destination = reverseRoute ? route.Nodes[0] : route.Nodes[route.Nodes.Count - 1];
-        visual.SetActive(true);
-        AngleTowardNextNode();
-    }
-
-    protected void Arrive()
-    {
-        arrived = true;
-        visual.SetActive(false);
-    }
-
-	protected void Move()
-	{
-		timeSinceLastMove = 0;
-        currentNodeIndex += reverseRoute ? -1 : 1;
-        currentNode = route.Nodes[currentNodeIndex];
-        transform.parent = currentNode.transform;
-        transform.SetAsFirstSibling();
-        if (currentNodeIndex == 0 || currentNodeIndex == route.Nodes.Count - 1)
-        {
-            Arrive();
-        }
-        else
-        {
-            AngleTowardNextNode();
-        }
+		timeSinceLastMove += Time.deltaTime;
+		if (timeSinceLastMove >= timeBetweenMovements)
+		{
+			Move();
+		}
 	}
 
-    protected void AngleTowardNextNode()
+    public void Setup(List<Node> nodes, TransportType type)
     {
-        Transform nextT = route.Nodes[currentNodeIndex + (reverseRoute ? -1 : 1)].transform;
+		this.nodes = nodes;
+		this.type = type;
+        timeBetweenMovements = TransportSettings.SecondsBetweenMoves;
+	}
+
+    public void Initiate()
+    {
+		timeSinceLastMove = 0;
+        currentNodeIndex = route.ReverseRoute ? nodes.Count - 1 : 0;
+		currentNode = nodes[currentNodeIndex];
+		gameObject.SetActive(true);
+	}
+
+	public void Move()
+	{
+		if (currentNodeIndex == 0 || currentNodeIndex == route.Nodes.Count - 1)
+		{
+			route.EndVehicleRoute(this, () =>
+			{
+				gameObject.SetActive(false);
+			});
+		}
+		else
+		{
+			timeSinceLastMove = 0;
+			currentNodeIndex += route.ReverseRoute ? -1 : 1;
+			currentNode = nodes[currentNodeIndex];
+			transform.parent = currentNode.transform;
+			transform.SetAsFirstSibling();
+			if (type == TransportType.Plane)
+			{
+				transform.localPosition = Vector3.zero;
+			}
+			AngleTowardNextNode();
+		}
+	}
+
+    public void AngleTowardNextNode()
+    {
+        Transform nextT = route.Nodes[currentNodeIndex + (route.ReverseRoute ? -1 : 1)].transform;
         transform.LookAt(nextT);
 		transform.up = nextT.up;
+		if (type == TransportType.Plane)
+		{
+			transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 4, transform.localPosition.z);
+		}
 	}
 }

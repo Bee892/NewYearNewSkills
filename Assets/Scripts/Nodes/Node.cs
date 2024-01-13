@@ -9,6 +9,8 @@ public abstract class Node : MonoBehaviour
     public List<Node> NeighborNodes;
     protected bool passable;
     protected GameObject visual;
+    public NodeSettingsSO Settings;
+    public NodeType Type;
 
     public bool Passable
     {
