@@ -86,9 +86,9 @@ public class Constants
 
     public static readonly Dictionary<TransportType, string> TransportPrefabs = new Dictionary<TransportType, string>() 
     {
-        { TransportType.Train, "" },
-        { TransportType.Truck, "" },
-        { TransportType.Plane, "" },
-        { TransportType.Boat, "" }
+        { TransportType.Train, "Assets/TransportPrefabs/Fast Land.prefab" },
+        { TransportType.Truck, "Assets/TransportPrefabs/Slow Land.prefab" },
+        { TransportType.Plane, "Assets/TransportPrefabs/Air.prefab" },
+        { TransportType.Boat, "Assets/TransportPrefabs/Sea.prefab" }
     };
 }

@@ -17,6 +17,7 @@ public class Globe : MonoBehaviour
     private Vector3 mousePos;
     private Vector3 deltaMousePos;
     private List<Node> nodes;
+    public NodeManager nodeManager;
 
     public bool Rotating
     {

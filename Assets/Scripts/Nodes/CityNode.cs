@@ -70,6 +70,8 @@ public class CityNode : Node
     public static event cityUpgrade OnCityUpgrade;
     public List<ResourceNode> resourceNodes1;
     public GameObject GenericNodePrefabs;
+    float[] transportTypeMultiplicators = { 1, 4, 2, 5 };
+    float[] fuelConsumption = { 100, 300, 200, 500 };
     public bool isOriginal = true;
     public Era CityEra
     {
@@ -240,25 +242,41 @@ public class CityNode : Node
         ResourceNode[] resourceNodes = GetComponentsInChildren<ResourceNode>();
     }
 
-    public void CreateTradeRouteBetweenCities(CityNode c, Node n, Resource r)
+    public void CreateTradeRouteBetweenCities(CityNode destination, float quantity, bool persistence, ResourceType type, TransportType transport)
     {
         if (!isOriginal)
         {
-            c.resourcesStored[(int)r.Type] -= r.Quantity;
-            n.gameObject.GetComponent<CityNode>().resourcesStored[(int)r.Type] += r.Quantity;
+            quantity = quantity * transportTypeMultiplicators[(int)transport];
+            float fuelCost = fuelConsumption[(int)transport];
+            if(persistence)
+            {
+                
+                resourcesStored[(int)type] -= quantity;
+                destination.resourcesStored[(int)type] += quantity;
+                resourcesStored[(int)ResourceType.Fuel] -= fuelCost;
+            }
+            else
+            {
+                resourcesConsumption[(int)type] -= quantity;
+                destination.resourcesConsumption[(int)type] += quantity;
+                resourcesConsumption[(int)ResourceType.Fuel] -= fuelCost;
+            }
         }
     }
-    public void CreateTradeRouteBetweenCityAndResourceNode (ResourceNode destination)
+    public void CreateTradeRouteBetweenCityAndResourceNode (ResourceNode destination, TransportType transport)
     {
         float cost = 500;
+ 
+        float fuelCost = fuelConsumption[(int)transport];
         resourceNodes1.Add(destination);
         if (!destination.used)
         {
-            TransportRoute TradeRoute = globe.GenerateTradeRoute(this, destination, transportType, true, arrivalCallBack);
             destination.City = this;
             ResourceType type = destination.ResourceType;
+            destination.resourceTransmitted = destination.resourceTransmitted * transportTypeMultiplicators[(int)transport];
             resourcesConsumption[(int)type] += destination.resourceTransmitted;
             destination.used = true;
+            resourcesStored[(int)ResourceType.Fuel] -= fuelCost;
             money -= cost;
         }
     }
@@ -301,7 +319,7 @@ public class CityNode : Node
                 for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
                 yield return new WaitUntil(() => !IsSelectingVehicle);
                 for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
-                CreateTradeRouteBetweenCityAndResourceNode(nodeManager.target.GetComponent<ResourceNode>());
+                CreateTradeRouteBetweenCityAndResourceNode(nodeManager.target.GetComponent<ResourceNode>(),transportType);
                 cancelButton.SetActive(false);
             }
             if (nodeManager.target.GetComponent<CityNode>() != null)
@@ -326,11 +344,11 @@ public class CityNode : Node
                 isInputingTransferValue = true;
                 yield return new WaitUntil(() => !isInputingTransferValue);
                 valueToBeTransfered = float.Parse(value.text);
+
                 valueContainer.SetActive(false);
                 value.text = "";
 
-                Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
-                TransportRoute transportRoute = globe.GenerateTradeRoute(this, nodeManager.target.GetComponent<CityNode>(), transportType, persistence, resource, CreateTradeRouteBetweenCities);
+                CreateTradeRouteBetweenCities(target.GetComponent<CityNode>(),valueToBeTransfered,persistence,resourceType,transportType);
 
                 cancelButton.SetActive(false);
 
@@ -403,16 +421,28 @@ public class CityNode : Node
     }
     public void ConfirmUpgradeAspect()
     {
-        UpgradeAspect(aspectIndex);
-        for (int i = 0; i < icons2.Length; i++)
+        if (isInputingTransferValue)
         {
-            icons2[i].SetActive(false);
-            upgradeTexts[i].gameObject.SetActive(false);
+            InputValue();
+        }
+        else
+        {
+            UpgradeAspect(aspectIndex);
+            for (int i = 0; i < icons2.Length; i++)
+            {
+                icons2[i].SetActive(false);
+                upgradeTexts[i].gameObject.SetActive(false);
+            }
         }
     }
     public void CancelButton()
     {
-        if(isSelectingTarget)
+        if (isInputingTransferValue)
+        {
+            isInputingTransferValue = false;
+            StopCoroutine(tradeRouteEnumarator());
+        }
+        if (isSelectingTarget)
         {
             isSelectingTarget = false;
             StopCoroutine(tradeRouteEnumarator());
