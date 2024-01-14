@@ -75,6 +75,7 @@ public class CityNode : Node
     float[] transportTypeMultiplicators = { 1, 4, 2, 5 };
     float[] fuelConsumption = { 100, 300, 200, 500 };
     public bool isOriginal = true;
+    public float cost;
     public Era CityEra
     {
         get
@@ -138,6 +139,16 @@ public class CityNode : Node
             canvas.enabled = false;
             globe = GetComponentInParent<Globe>();
             InvokeRepeating("Consumpiton", 0f, 1f);
+            for (int i = 0; i < 2; i++)
+            {
+                valuesThresHold[i].enabled = false;
+                valuesText.enabled = false;
+                deathMessage.enabled = false;
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                upgradeTexts[i].enabled = false;
+            }
         }
 
     }
@@ -162,9 +173,9 @@ public class CityNode : Node
                 for (int i = 0; i < 2; i++)
                 {
                     icons3[i].SetActive(false);
-                    valuesThresHold[i].gameObject.SetActive(false);
-                    valuesText.gameObject.SetActive(false);
-                    deathMessage.gameObject.SetActive(false);
+                    valuesThresHold[i].enabled = false;
+                    valuesText.enabled = false;
+                    deathMessage.enabled = false;
                 }
                 for (int i = 0; i < buttons.Length; i++)
                 {
@@ -180,10 +191,10 @@ public class CityNode : Node
         for (int i = 0; i < 2; i++)
         {
             icons3[i].SetActive(true);
-            valuesThresHold[i].gameObject.SetActive(true);
+            valuesThresHold[i].enabled = true;
             valuesThresHold[i].text = cityRevivalThreshold[i].ToString();
-            valuesText.gameObject.SetActive(true);
-            deathMessage.gameObject.SetActive(true);
+            valuesText.enabled=true;
+            deathMessage.enabled = true;
             valuesText.text = "Requeriments:";
             deathMessage.text = "City is Dead!";
         }
@@ -193,10 +204,9 @@ public class CityNode : Node
         for (int i = 0; i < 2; i++)
         {
             icons3[i].SetActive(true);
-            valuesThresHold[i].gameObject.SetActive(true);
+            valuesThresHold[i].enabled = true; valuesText.enabled = true;
             valuesThresHold[i].text = cityNotCrumbleThreshold.ToString();
-            valuesText.gameObject.SetActive(true);
-            deathMessage.gameObject.SetActive(true);
+            deathMessage.enabled = true;
             valuesText.text = "Requeriments:";
             deathMessage.text = "City is Crumbling!";
         }
@@ -250,6 +260,7 @@ public class CityNode : Node
         {
             quantity = quantity * transportTypeMultiplicators[(int)transport];
             float fuelCost = fuelConsumption[(int)transport];
+            money -= cost;
             if(persistence)
             {
                 
@@ -267,8 +278,6 @@ public class CityNode : Node
     }
     public void CreateTradeRouteBetweenCityAndResourceNode (ResourceNode destination, TransportType transport)
     {
-        float cost = 500;
- 
         float fuelCost = fuelConsumption[(int)transport];
         resourceNodes1.Add(destination);
         if (!destination.used)
@@ -407,13 +416,15 @@ public class CityNode : Node
     {
         aspectIndex = index;
         isSeingUpgrades = true;
+        confirmButton.SetActive(true);
         cancelButton.SetActive(true);
-        for (int i = 0;i<icons2.Length; i++)
+        for (int i = 0;i<5; i++)
         {
             icons2[i].SetActive(true);
-            upgradeTexts[i].gameObject.SetActive(true);
+            upgradeTexts[i].enabled = true;
             upgradeTexts[i].text = upgradeCost[i].ToString();
         }
+        
     }
     public void SelectVehicle(int vehicleIndex)
     {
@@ -422,19 +433,16 @@ public class CityNode : Node
     }
     public void ConfirmUpgradeAspect()
     {
-        if (isInputingTransferValue)
-        {
-            InputValue();
-        }
-        else
-        {
-            UpgradeAspect(aspectIndex);
-            for (int i = 0; i < icons2.Length; i++)
+  UpgradeAspect(aspectIndex);
+            for (int i = 0; i < 5; i++)
             {
                 icons2[i].SetActive(false);
-                upgradeTexts[i].gameObject.SetActive(false);
+                upgradeTexts[i].enabled = false;
+
             }
-        }
+        confirmButton.SetActive(false);
+        cancelButton.SetActive(false);
+        isSeingUpgrades = false;
     }
     public void CancelButton()
     {
@@ -463,11 +471,14 @@ public class CityNode : Node
         if(isSeingUpgrades)
         {
             isSeingUpgrades = false;
-            for (int i = 0; i < icons2.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
                 icons2[i].SetActive(false);
-                upgradeTexts[i].gameObject.SetActive(false);
+                upgradeTexts[i].enabled = false;
+
             }
+            confirmButton.SetActive(false);
+            cancelButton.SetActive(false);
         }
         if(isSelectingPersistence)
         {
