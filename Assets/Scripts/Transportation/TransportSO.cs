@@ -7,7 +7,7 @@ using static Constants;
 public class TransportSO : ScriptableObject
 {
     public Era VehicleEra;
-    public GameObject visual;
+    public GameObject[] visual;
     public float FuelConsumptionPerSecond;
     public float ResourceGainPerSecond;
     public LandSeaDesignation LandOrSea;

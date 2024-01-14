@@ -11,14 +11,18 @@ public class Transport : MonoBehaviour
     protected int currentNodeIndex;
 	protected float timeSinceLastMove;
 	private float timeBetweenMovements;
-	[SerializeField] protected GameObject visual;
+	CityNode city;
+	[SerializeField] protected GameObject[] visual;
     public TransportSO TransportSettings;
 
     public Node CurrentNode { get { return currentNode; } }
 
 	private void Awake()
 	{
-		visual = Instantiate(TransportSettings.visual, transform);
+		for (int i = 0; i < visual.Length; i++)
+		{
+			visual[i] = Instantiate(TransportSettings.visual[i], transform);
+		}
 	}
 
 	// Start is called before the first frame update

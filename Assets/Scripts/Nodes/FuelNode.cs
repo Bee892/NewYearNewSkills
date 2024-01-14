@@ -8,7 +8,9 @@ public class FuelNode : ResourceNode
 	private void Awake()
 	{
 		resourceType = ResourceType.Fuel;
-	}
+        StartCoroutine(Generation());
+        prefabPathName = "Assets/Nodes Prefabs/Fuel Node Prefab.prefab";
+    }
 
 	// Start is called before the first frame update
 	void Start()

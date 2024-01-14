@@ -25,6 +25,7 @@ public class BarrenNode : Node
 	{
         base.Setup();
         Type = Constants.NodeType.Barren;
+
         passable = true;
 	}
 }
