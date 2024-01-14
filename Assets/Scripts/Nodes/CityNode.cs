@@ -263,6 +263,9 @@ public class CityNode : Node
         message.gameObject.SetActive(false);
         if(nodeManager.target.GetComponent<ResourceNode>() != null)
         {
+            for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
+            yield return new WaitUntil(() => !IsSelectingVehicle);
+            for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
             CreateTradeRouteBetweenCityAndResourceNode(nodeManager.target.GetComponent<ResourceNode>());
             cancelButton.SetActive(false);
         }
