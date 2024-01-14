@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8694cb20225c44ea50c357b2fde22d, type: 3}
+  m_Name: Fast Land
+  m_EditorClassIdentifier: 
+  VehicleEra: 0
+  visual:
+  - {fileID: 4828205584588904265, guid: 425599d2c8516b84bbb8a7a695951d8c, type: 3}
+  FuelConsumptionPerSecond: 5
+  ResourceGainPerSecond: 100
+  LandOrSea: 0
+  SecondsBetweenMoves: 0

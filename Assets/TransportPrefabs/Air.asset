@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Air
   m_EditorClassIdentifier: 
   VehicleEra: 0
-  visual: {fileID: 0}
-  FuelConsumptionPerSecond: 0
-  ResourceGainPerSecond: 0
+  visual:
+  - {fileID: 919132149155446097, guid: 00c590e4cc18c5941afc7ba4c065dc0c, type: 3}
+  FuelConsumptionPerSecond: 40
+  ResourceGainPerSecond: 1000
   LandOrSea: 0
   SecondsBetweenMoves: 0
