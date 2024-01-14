@@ -6,7 +6,9 @@ using static Constants;
 using TMPro;
 using UnityEngine.UI;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class CityNode : Node
 {
@@ -379,8 +381,7 @@ public class CityNode : Node
         GameObject obj = null;
         if (isOriginal)
         {
-            
-            obj = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nodes Prefabs/City/City Node.prefab"));
+            obj = Instantiate(nodeManager.CityNodePrefab);
             obj.GetComponent<CityNode>().isOriginal = false;
             obj.transform.position = this.gameObject.transform.position;
             obj.transform.rotation = this.gameObject.transform.rotation;
