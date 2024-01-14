@@ -7831,7 +7831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6050534854461380180
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7920,6 +7920,7 @@ MonoBehaviour:
   createTradeRouteUI: {fileID: 1774661135328684220}
   message: {fileID: 0}
   canvas: {fileID: 0}
+  valueContainer: {fileID: 0}
   value: {fileID: 3520135289879247348}
   inputField: {fileID: 0}
   icons:
