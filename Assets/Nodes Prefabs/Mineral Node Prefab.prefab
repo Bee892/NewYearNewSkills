@@ -82,13 +82,13 @@ MonoBehaviour:
   used: 0
   nodeManager: {fileID: 0}
   visuals:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1308872970710212673}
+  - {fileID: 1308872970710212673}
+  - {fileID: 1308872970710212673}
   seaVisuals:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1308872970710212673}
+  - {fileID: 1308872970710212673}
+  - {fileID: 1308872970710212673}
   landOrSea: 0
   eraIndex: -1
   GenericNodePrefabs: {fileID: 0}
@@ -172,6 +172,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
+--- !u!1 &1308872970710212673 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
+  m_PrefabInstance: {fileID: 2227985327581551888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1828986622851070715 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}

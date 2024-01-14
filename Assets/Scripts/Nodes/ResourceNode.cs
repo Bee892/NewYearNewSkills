@@ -28,6 +28,7 @@ public abstract class ResourceNode : Node
     public bool isOriginal = true;
     public string prefabPathName;
 
+
     public override void Setup()
     {
         base.Setup();
@@ -36,6 +37,8 @@ public abstract class ResourceNode : Node
         landOrSea = GetComponentInParent<Tile>().type;
         updateVisuals();
         GameObject obj = null;
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        nodeManager = manager.GetComponent<NodeManager>();
         if (isOriginal)
         {
             obj = InstantiatePrefab();
@@ -43,10 +46,8 @@ public abstract class ResourceNode : Node
             obj.transform.position = this.gameObject.transform.position;
             obj.transform.rotation = this.gameObject.transform.rotation;
             obj.transform.parent = this.gameObject.transform;
+            obj.GetComponent<ResourceNode>().nodeStart();
         }
-            GameObject manager = GameObject.FindGameObjectWithTag("Manager");
-        nodeManager = manager.GetComponent<NodeManager>();
-
     }
 
     public float ResourceYield
@@ -97,16 +98,15 @@ public abstract class ResourceNode : Node
     // Start is called before the first frame update
     void Start()
     {
-        if (!isOriginal)
-        {
-            base.Setup();
-            Type = NodeType.Resource;
-            passable = true;
-            landOrSea = GetComponentInParent<Tile>().type;
-            updateVisuals();
-            GameObject manager = GameObject.FindGameObjectWithTag("Manager");
-            nodeManager = manager.GetComponent<NodeManager>();
-        }
+            
+            
+    }
+    public void nodeStart()
+    {
+        landOrSea = GetComponentInParent<Tile>().type;
+        updateVisuals();
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        nodeManager = manager.GetComponent<NodeManager>();
     }
     public void OnMouseDown()
     {

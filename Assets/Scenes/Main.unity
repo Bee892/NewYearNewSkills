@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 290459065}
   m_Layer: 0
   m_Name: Managers
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,6 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30bb28418337fa42b6956bbcede37f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nodes: []
+  cityNodes: []
+  isSelectingTarget: 0
+  target: {fileID: 0}
 --- !u!23 &411828677 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2282403890464561610, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}

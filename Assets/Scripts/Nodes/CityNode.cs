@@ -107,14 +107,14 @@ public class CityNode : Node
         {
             if (!nodeManager.isSelectingTarget)
             {
-                foreach (CityNode citynode in nodeManager.cityNodes) citynode.canvas.gameObject.SetActive(false);
-                canvas.gameObject.SetActive(true);
+                foreach (CityNode citynode in nodeManager.cityNodes) citynode.canvas.enabled = false;
+                canvas.enabled = true;
             }
             else
             {
                 nodeManager.target = this.gameObject;
                 nodeManager.isSelectingTarget = false;
-
+                
             }
         }
     }
@@ -131,6 +131,8 @@ public class CityNode : Node
             passable = true;
             GameObject manager = GameObject.FindGameObjectWithTag("Manager");
             nodeManager = manager.GetComponent<NodeManager>();
+            canvas.enabled = false;
+            globe = GetComponentInParent<Globe>();
             InvokeRepeating("Consumpiton", 0f, 1f);
         }
 
@@ -287,13 +289,15 @@ public class CityNode : Node
             cancelButton.SetActive(true);
             target = null;
             valueToBeTransfered = 0;
-            isSelectingTarget = true;
+            nodeManager.isSelectingTarget = true;
             message.gameObject.SetActive(true);
             message.text = "Select a Node";
-            yield return new WaitUntil(() => !isSelectingTarget);
+            yield return new WaitUntil(() => !nodeManager.isSelectingTarget);
+            target = nodeManager.target;
             message.gameObject.SetActive(false);
             if (nodeManager.target.GetComponent<ResourceNode>() != null)
             {
+                IsSelectingVehicle = true;
                 for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
                 yield return new WaitUntil(() => !IsSelectingVehicle);
                 for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
