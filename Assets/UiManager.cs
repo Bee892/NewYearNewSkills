@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
+    public GameObject[] gameobjects;
+    public int index;
    public void PlayButton ()
     {
         SceneManager.LoadScene("Main");
@@ -20,5 +24,20 @@ public class UiManager : MonoBehaviour
     public void ReturnButton()
     {
         SceneManager.LoadScene("Menu");
+    }
+    public void nextButton()
+    {
+        if (index < 6)
+        {
+            gameobjects[index].SetActive(false);
+            index++;
+            gameobjects[index].SetActive(true);
+        }
+        else if (index == 6)
+        {
+            gameobjects[index].SetActive(false);
+            index = 0;
+            gameobjects[index].SetActive(true);
+        }
     }
 }
