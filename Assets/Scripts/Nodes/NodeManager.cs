@@ -130,6 +130,7 @@ public class NodeManager : MonoBehaviour
 			}
 
 			n.Setup();
+            n.transform.up = n.GetComponent<Tile>().transform.up;
 		}
 	}
 }
