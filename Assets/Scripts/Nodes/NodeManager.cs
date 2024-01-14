@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class NodeManager : MonoBehaviour
 {
-    List<Node> nodes = new List<Node>();
-
+    public List<Node> nodes = new List<Node>();
+    public List<CityNode> cityNodes = new List<CityNode>();
+    public bool isSelectingTarget;
+    public GameObject target;
     private class LinkedNode
     {
         public Node n;
@@ -105,9 +107,10 @@ public class NodeManager : MonoBehaviour
         return null;
     }
 
-    public void Setup(List<Node> newNodes)
+    public void Setup(List<Node> newNodes, List<CityNode> cityNodes)
     {
         nodes = newNodes;
+        this.cityNodes = cityNodes;
 
 		foreach (Node n in nodes)
 		{
@@ -125,6 +128,7 @@ public class NodeManager : MonoBehaviour
 					break;
 				}
 			}
+
 			n.Setup();
 		}
 	}

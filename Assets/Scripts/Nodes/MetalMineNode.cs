@@ -7,8 +7,9 @@ public class MetalMineNode : MineNode
 {
 	private void Awake()
 	{
-		type = ResourceType.Metal;
-	}
+		resourceType = ResourceType.Metal;
+        StartCoroutine(Generation());
+    }
 
 	// Start is called before the first frame update
 	void Start()
@@ -29,6 +30,7 @@ public class MetalMineNode : MineNode
 
 	public override void Setup()
 	{
-		throw new System.NotImplementedException();
+		base.Setup();
+		resourceType = ResourceType.Metal;
 	}
 }

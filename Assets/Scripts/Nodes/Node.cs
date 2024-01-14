@@ -6,9 +6,11 @@ using static Constants;
 public abstract class Node : MonoBehaviour
 {
     protected LandSeaDesignation landSeaDesignation;
-    public List<Node> NeighborNodes;
+    public List<Node> NeighborNodes = new List<Node>();
     protected bool passable;
     protected GameObject visual;
+    public NodeSettingsSO Settings;
+    public NodeType Type;
 
     public bool Passable
     {
@@ -35,7 +37,10 @@ public abstract class Node : MonoBehaviour
         
     }
 
-    public abstract void Setup();
+    public virtual void Setup()
+    {
+        landSeaDesignation = GetComponent<Tile>().type;
+	}
 
     public abstract void Selected();
 }
