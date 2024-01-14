@@ -31,7 +31,8 @@ public class CityNode : Node
     public TextMeshProUGUI message;
     private GameObject target;
     public Canvas canvas;
-    public TextMeshProUGUI value;
+    public GameObject valueContainer;
+    public TMP_InputField value;
     private float valueToBeTransfered;
     public InputField inputField;
     private string userInput;
@@ -40,6 +41,7 @@ public class CityNode : Node
     private ResourceType resourceType;
     public bool isSelectingResourceType;
     public bool IsSelectingVehicle;
+    public bool IsInputingValueTransferred;
     public GameObject[] vehiclesButtons;
     public TextMeshProUGUI upgradeCostText;
     public TextMeshProUGUI[] upgradeTexts;
@@ -281,7 +283,12 @@ public class CityNode : Node
             isSelectingPersistence = false;
             persistentText.gameObject.SetActive(false);
             yesButton.SetActive(false); noButton.SetActive(false);
-            //implement a way for the player to input the value
+            valueContainer.SetActive(true);
+            IsInputingValueTransferred = true;
+            yield return new WaitUntil(() => !IsInputingValueTransferred);
+            valueToBeTransfered = float.Parse(value.text);
+            valueContainer.SetActive(false);
+
             Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
             resource.Type = resourceType;
             TransportRoute transportRoute = globe.GenerateTradeRoute(this, nodeManager.target.GetComponent<CityNode>(), transportType, persistence, resource,CreateTradeRouteBetweenCities);
@@ -384,5 +391,13 @@ public class CityNode : Node
         if(b==1) { u = true; } else { u = false; }
         persistence = u;
         isSelectingPersistence = false;
+    }
+
+    public void InputValue()
+    {
+        if (float.TryParse(value.text, out float val))
+        {
+            IsInputingValueTransferred = false;
+        }
     }
 }
