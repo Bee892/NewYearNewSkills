@@ -6,6 +6,7 @@ using static Constants;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEditor;
 
 public class CityNode : Node
 {
@@ -64,7 +65,12 @@ public class CityNode : Node
     public GameObject persistentText;
     public GameObject yesButton;
     public GameObject noButton;
-    //create variable for the vehicle
+    public GameObject[] visuals;
+    public delegate void cityUpgrade();
+    public static event cityUpgrade OnCityUpgrade;
+    public List<ResourceNode> resourceNodes1;
+    public GameObject GenericNodePrefabs;
+    public bool isOriginal = true;
     public Era CityEra
     {
         get
@@ -75,35 +81,41 @@ public class CityNode : Node
 
     public void Consumpiton()
     {
-        for (int i = 0; i < resourcesStored.Length; i++)
+        if (!isOriginal)
         {
-            resourcesStored[i] += resourcesConsumption[i] - initialResourcesConsumption[i];
-            
-            if (i == (int)ResourceType.Minerals || i == (int)ResourceType.Metal)
+            for (int i = 0; i < resourcesStored.Length; i++)
             {
-                if (resourcesStored[i] > 0) money += moneyIncrease * initialResourcesConsumption[i];
+                resourcesStored[i] += resourcesConsumption[i] - initialResourcesConsumption[i];
+
+                if (i == (int)ResourceType.Minerals || i == (int)ResourceType.Metal)
+                {
+                    if (resourcesStored[i] > 0) money += moneyIncrease * initialResourcesConsumption[i];
+                }
+                else
+                {
+                    isCrumbling = true;
+                    if (resourcesStored[i] == 0 && isCityAlive) StartCoroutine(Crumbling());
+                }
+                if (resourcesStored[i] < 0) resourcesStored[i] = 0; //Limit the resource to 0
             }
-            else
-            {
-                isCrumbling = true;
-                if (resourcesStored[i] == 0&& isCityAlive) StartCoroutine(Crumbling());
-            }
-            if (resourcesStored[i] < 0) resourcesStored[i] = 0; //Limit the resource to 0
         }
     }
 
     public void OnMouseDown()
     {
-        if (!nodeManager.isSelectingTarget)
+        if (!isOriginal)
         {
-            foreach(CityNode citynode in nodeManager.cityNodes) citynode.canvas.gameObject.SetActive(false);
-            canvas.gameObject.SetActive(true);           
-        }
-        else
-        {
-            nodeManager.target = this.gameObject;
-            nodeManager.isSelectingTarget = false;
-   
+            if (!nodeManager.isSelectingTarget)
+            {
+                foreach (CityNode citynode in nodeManager.cityNodes) citynode.canvas.gameObject.SetActive(false);
+                canvas.gameObject.SetActive(true);
+            }
+            else
+            {
+                nodeManager.target = this.gameObject;
+                nodeManager.isSelectingTarget = false;
+
+            }
         }
     }
 
@@ -111,38 +123,49 @@ public class CityNode : Node
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Consumpiton", 0f, 1f);
+        if (!isOriginal)
+        {
+            
+            base.Setup();
+            Type = NodeType.City;
+            passable = true;
+            GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+            nodeManager = manager.GetComponent<NodeManager>();
+            InvokeRepeating("Consumpiton", 0f, 1f);
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!isCityAlive)
+        if (!isOriginal)
         {
+            if (!isCityAlive)
+            {
 
-            if (resourcesStored[(int)ResourceType.Fuel] > cityRevivalThreshold[0] && resourcesStored[(int)ResourceType.Food] > cityRevivalThreshold[1])
-            isCityAlive = true;
-            for(int i =0;i<buttons.Length;i++)
+                if (resourcesStored[(int)ResourceType.Fuel] > cityRevivalThreshold[0] && resourcesStored[(int)ResourceType.Food] > cityRevivalThreshold[1])
+                    isCityAlive = true;
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    buttons[i].SetActive(false);
+                }
+            }
+            if (!isCrumbling && isCityAlive)
             {
-                buttons[i].SetActive(false);
+                for (int i = 0; i < 2; i++)
+                {
+                    icons3[i].SetActive(false);
+                    valuesThresHold[i].gameObject.SetActive(false);
+                    valuesText.gameObject.SetActive(false);
+                    deathMessage.gameObject.SetActive(false);
+                }
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    buttons[i].SetActive(true);
+                }
             }
         }
-        if(!isCrumbling && isCityAlive)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                icons3[i].SetActive(false);
-                valuesThresHold[i].gameObject.SetActive(false);
-                valuesText.gameObject.SetActive(false);
-                deathMessage.gameObject.SetActive(false);
-            }
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                buttons[i].SetActive(true);
-            }
-        }
-        
     }
 
     public void Death()
@@ -198,7 +221,10 @@ public class CityNode : Node
     {
         if (cityAspects[0] && cityAspects[1] && cityAspects[2] && cityAspects[3])
         {
+            visuals[(int)cityEra].gameObject.SetActive(false);
             cityEra++;
+            visuals[(int)cityEra].gameObject.SetActive(true);
+            foreach(ResourceNode node in resourceNodes1) node.updateVisuals();
             for (int i = 0; i < initialResourcesConsumption.Length; i++) {
                 initialResourcesConsumption[i] = initialResourcesConsumption[i] * eraMultipliers[(int)cityEra];
                 upgradeCost[i] = upgradeCost[i] * eraMultipliers[(int)cityEra];
@@ -214,23 +240,22 @@ public class CityNode : Node
 
     public void CreateTradeRouteBetweenCities(CityNode c, Node n, Resource r)
     {
-        
-        c.resourcesStored[(int)r.Type] -= r.Quantity; 
-        n.gameObject.GetComponent<CityNode>().resourcesStored[(int)r.Type] += r.Quantity;
- 
+        if (!isOriginal)
+        {
+            c.resourcesStored[(int)r.Type] -= r.Quantity;
+            n.gameObject.GetComponent<CityNode>().resourcesStored[(int)r.Type] += r.Quantity;
+        }
     }
     public void CreateTradeRouteBetweenCityAndResourceNode (ResourceNode destination)
     {
-        float cost = 0;
-        float quantity = 0;
-        //implement code that creates a trade route
+        float cost = 500;
+        resourceNodes1.Add(destination);
         if (!destination.used)
         {
             TransportRoute TradeRoute = globe.GenerateTradeRoute(this, destination, transportType, true, arrivalCallBack);
             destination.City = this;
             ResourceType type = destination.ResourceType;
-            resourcesConsumption[(int)type] += quantity;
-            destination.resourceTransmitted += quantity;
+            resourcesConsumption[(int)type] += destination.resourceTransmitted;
             destination.used = true;
             money -= cost;
         }
@@ -238,12 +263,16 @@ public class CityNode : Node
 
     private void FixedUpdate()
     {
-        moneyText.text = money.ToString();
-        foodText.text = resourcesStored[(int)ResourceType.Food].ToString();
-        fuelText.text = resourcesStored[(int)ResourceType.Fuel].ToString();
-        mineralsText.text = resourcesStored[(int)ResourceType.Minerals].ToString();
-        metalText.text = resourcesStored[(int)ResourceType.Metal].ToString();
+        if (!isOriginal)
+        {
+            moneyText.text = money.ToString();
+            foodText.text = resourcesStored[(int)ResourceType.Food].ToString();
+            fuelText.text = resourcesStored[(int)ResourceType.Fuel].ToString();
+            mineralsText.text = resourcesStored[(int)ResourceType.Minerals].ToString();
+            metalText.text = resourcesStored[(int)ResourceType.Metal].ToString();
+        }
     }
+
 
     public void createTradeRoute()
     {
@@ -253,52 +282,55 @@ public class CityNode : Node
 
     IEnumerator tradeRouteEnumarator()
     {
-        cancelButton.SetActive(true);
-        target = null;
-        valueToBeTransfered = 0;
-        isSelectingTarget = true;
-        message.gameObject.SetActive(true);
-        message.text = "Select a Node";
-        yield return new WaitUntil(() => !isSelectingTarget);
-        message.gameObject.SetActive(false);
-        if(nodeManager.target.GetComponent<ResourceNode>() != null)
+        if (!isOriginal)
         {
-            for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
-            yield return new WaitUntil(() => !IsSelectingVehicle);
-            for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
-            CreateTradeRouteBetweenCityAndResourceNode(nodeManager.target.GetComponent<ResourceNode>());
-            cancelButton.SetActive(false);
-        }
-        if(nodeManager.target.GetComponent<CityNode>() != null)
-        {
-            for (int i = 0; i < icons.Length; i++) icons[i].SetActive(true);
-            isSelectingResourceType = true;
-            yield return new WaitUntil(() => !isSelectingResourceType);
-            for (int i = 0; i < icons.Length; i++) icons[i].SetActive(false);
-            //implement method to get player input for the value to be transferred
-            IsSelectingVehicle = true;
-            for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
-            yield return new WaitUntil(() => !IsSelectingVehicle);
-            for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
-            isSelectingPersistence = true;
-            persistentText.gameObject.SetActive(true);
-            yesButton.SetActive(true); noButton.SetActive(true);
-            yield return new WaitUntil(() => !isSelectingPersistence);
-            isSelectingPersistence = false;
-            persistentText.gameObject.SetActive(false);
-            yesButton.SetActive(false); noButton.SetActive(false);
-            valueContainer.SetActive(true);
-			isInputingTransferValue = true;
-			yield return new WaitUntil(() => !isInputingTransferValue);
-            valueToBeTransfered = float.Parse(value.text);
-			valueContainer.SetActive(false);
-			value.text = "";
-            
-			Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
-            TransportRoute transportRoute = globe.GenerateTradeRoute(this, nodeManager.target.GetComponent<CityNode>(), transportType, persistence, resource,CreateTradeRouteBetweenCities);
-            
-            cancelButton.SetActive(false);
+            cancelButton.SetActive(true);
+            target = null;
+            valueToBeTransfered = 0;
+            isSelectingTarget = true;
+            message.gameObject.SetActive(true);
+            message.text = "Select a Node";
+            yield return new WaitUntil(() => !isSelectingTarget);
+            message.gameObject.SetActive(false);
+            if (nodeManager.target.GetComponent<ResourceNode>() != null)
+            {
+                for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
+                yield return new WaitUntil(() => !IsSelectingVehicle);
+                for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
+                CreateTradeRouteBetweenCityAndResourceNode(nodeManager.target.GetComponent<ResourceNode>());
+                cancelButton.SetActive(false);
+            }
+            if (nodeManager.target.GetComponent<CityNode>() != null)
+            {
+                for (int i = 0; i < icons.Length; i++) icons[i].SetActive(true);
+                isSelectingResourceType = true;
+                yield return new WaitUntil(() => !isSelectingResourceType);
+                for (int i = 0; i < icons.Length; i++) icons[i].SetActive(false);
+                //implement method to get player input for the value to be transferred
+                IsSelectingVehicle = true;
+                for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(true);
+                yield return new WaitUntil(() => !IsSelectingVehicle);
+                for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
+                isSelectingPersistence = true;
+                persistentText.gameObject.SetActive(true);
+                yesButton.SetActive(true); noButton.SetActive(true);
+                yield return new WaitUntil(() => !isSelectingPersistence);
+                isSelectingPersistence = false;
+                persistentText.gameObject.SetActive(false);
+                yesButton.SetActive(false); noButton.SetActive(false);
+                valueContainer.SetActive(true);
+                isInputingTransferValue = true;
+                yield return new WaitUntil(() => !isInputingTransferValue);
+                valueToBeTransfered = float.Parse(value.text);
+                valueContainer.SetActive(false);
+                value.text = "";
 
+                Resource resource = new Resource(resourceType, valueToBeTransfered, persistence);
+                TransportRoute transportRoute = globe.GenerateTradeRoute(this, nodeManager.target.GetComponent<CityNode>(), transportType, persistence, resource, CreateTradeRouteBetweenCities);
+
+                cancelButton.SetActive(false);
+
+            }
         }
         
     }
@@ -320,6 +352,28 @@ public class CityNode : Node
         base.Setup();
         Type = NodeType.City;
         passable = true;
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        nodeManager = manager.GetComponent<NodeManager>();
+        GameObject obj = null;
+        if (isOriginal)
+        {
+            
+            obj = Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nodes Prefabs/City/City Node.prefab"));
+            obj.GetComponent<CityNode>().isOriginal = false;
+            obj.transform.position = this.gameObject.transform.position;
+            obj.transform.rotation = this.gameObject.transform.rotation;
+            obj.transform.parent = this.gameObject.transform;
+            nodeManager.cityNodes.Add(obj.GetComponent<CityNode>());
+            nodeManager.cityNodes.Remove(this);
+
+        }
+        
+    }
+    GameObject InstantiatePrefab()
+    {
+        string prefabPathName = "Assets/Nodes Prefabs/City";
+        return Instantiate(Resources.Load<GameObject>(prefabPathName));
+
     }
 
     public void UpgradeCityButtom()

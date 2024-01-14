@@ -10,7 +10,9 @@ public class MineralsMineNode : MineNode
     private void Awake()
     {
         resourceType = ResourceType.Minerals;
-        
+        StartCoroutine(Generation());
+        prefabPathName = "Assets/Nodes Prefabs/Mineral Node Prefab.prefab";
+
     }
    
 
