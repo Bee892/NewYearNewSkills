@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSpeed: 0.16
   ZoomSpeed: 0.5
-  NumStartCities: 5
-  MaxCityResourceStartDist: 0
-  NumStartFuel: 4
-  NumStartFood: 4
-  NumStartMetal: 4
-  NumStartMinerals: 4
+  NumStartCities: 3
+  MaxCityResourceStartDist: 5
+  NumStartFuel: 8
+  NumStartFood: 8
+  NumStartMetal: 8
+  NumStartMinerals: 8
   MinTimeArrivalToDeparture: 5
   MaxTimeArrivalToDeparture: 10

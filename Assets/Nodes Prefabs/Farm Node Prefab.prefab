@@ -56,7 +56,7 @@ MonoBehaviour:
   resourceTransmitted: 10
   totalResourceGenerated: 0
   maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 0
+  timeSpanForNodeToReplenish: 10
   resourceStored: 0
   City: {fileID: 0}
   eraMultipliers: 010000000200000003000000

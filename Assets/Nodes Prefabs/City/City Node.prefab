@@ -8966,30 +8966,30 @@ MonoBehaviour:
   Settings: {fileID: 0}
   Type: 0
   resourcesStored:
-  - 10000
-  - 10000
-  - 10000
-  - 10000
+  - 500
+  - 500
+  - 500
+  - 500
   resourcesConsumption:
-  - 0
-  - 0
-  - 0
-  - 0
+  - 2
+  - 1
+  - 1
+  - 2
   initialResourcesConsumption:
-  - 100
-  - 100
-  - 100
-  - 100
+  - 2
+  - 1
+  - 1
+  - 2
   money: 10000
   upgradeCost:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 100
+  - 50
+  - 50
+  - 100
+  - 100
   cityAspects: 00000000
   moneyIncrease: 0
-  eraMultipliers: 01000000040000000a000000
+  eraMultipliers: 010000000200000003000000
   isCityAlive: 1
   cityNotCrumbleThreshold: 0
   cityRevivalThreshold:
@@ -9066,6 +9066,7 @@ MonoBehaviour:
   resourceNodes1: []
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
+  cost: 1
 --- !u!135 &4945422734188988353
 SphereCollider:
   m_ObjectHideFlags: 0
