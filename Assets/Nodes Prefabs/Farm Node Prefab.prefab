@@ -53,6 +53,7 @@ MonoBehaviour:
   Type: 0
   era: 0
   resourceGeneration: 1000
+
   resourceTransmitted: 10
   totalResourceGenerated: 0
   maxResourcesGenerated: 0
@@ -71,10 +72,10 @@ MonoBehaviour:
   - {fileID: 1186030082063224132}
   - {fileID: 1186030082063224132}
   landOrSea: 0
-  eraIndex: 0
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
+  sfxmanager: {fileID: 0}
 --- !u!135 &1208868496582502927
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class NodeManager : MonoBehaviour
     public GameObject target;
     public GameObject CityNodePrefab;
     public GameObject[] ResourceNodePrefab;
+    public int CityEra;
     private class LinkedNode
     {
         public Node n;

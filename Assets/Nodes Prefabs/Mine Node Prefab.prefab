@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7251068500603678245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.165, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69,10 +69,10 @@ MonoBehaviour:
   - {fileID: 2806859226221076558}
   - {fileID: 2806859226221076558}
   landOrSea: 0
-  eraIndex: -1
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
+  sfxmanager: {fileID: 0}
 --- !u!135 &8209901258578247581
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -116,11 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.282
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.145
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
