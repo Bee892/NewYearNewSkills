@@ -15,7 +15,7 @@ MonoBehaviour:
   VehicleEra: 0
   visual:
   - {fileID: 2830588659009968608, guid: cd052464579db5841bdf1337617feecb, type: 3}
-  FuelConsumptionPerSecond: 5
-  ResourceGainPerSecond: 100
+  FuelConsumptionPerSecond: 0.1
+  ResourceGainPerSecond: 30
   LandOrSea: 0
   SecondsBetweenMoves: 0
