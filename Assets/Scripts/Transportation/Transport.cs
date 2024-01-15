@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Constants;
 
 public class Transport : MonoBehaviour
 {
+	protected Era vehicleEra;
     protected List<Node> nodes;
 	protected TransportType type;
     protected TransportRoute route;
@@ -15,14 +17,18 @@ public class Transport : MonoBehaviour
 	[SerializeField] protected GameObject[] visual;
     public TransportSO TransportSettings;
 
+	public Era VehicleEra
+	{
+		get
+		{
+			return vehicleEra;
+		}
+	}
     public Node CurrentNode { get { return currentNode; } }
 
 	private void Awake()
 	{
-		for (int i = 0; i < visual.Length; i++)
-		{
-			visual[i] = Instantiate(TransportSettings.visual[i], transform);
-		}
+		
 	}
 
 	// Start is called before the first frame update
@@ -41,11 +47,25 @@ public class Transport : MonoBehaviour
 		}
 	}
 
-    public void Setup(List<Node> nodes, TransportType type)
+    public void Setup(List<Node> nodes, TransportType type, Era e)
     {
 		this.nodes = nodes;
 		this.type = type;
+		vehicleEra = e;
         timeBetweenMovements = TransportSettings.SecondsBetweenMoves;
+		for (int i = 0; i < visual.Length; i++)
+		{
+			visual[i] = Instantiate(TransportSettings.visual[i], transform);
+			if (EraIndices[vehicleEra] == i)
+			{
+				visual[i].SetActive(true);
+			}
+			else
+			{
+				visual[i].SetActive(false);
+			}
+		}
+
 	}
 
     public void Initiate()
@@ -89,5 +109,12 @@ public class Transport : MonoBehaviour
 		{
 			transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 4, transform.localPosition.z);
 		}
+	}
+
+	public void SetVehicleEra(Era e)
+	{
+		visual[EraIndices[vehicleEra]].SetActive(false);
+		vehicleEra = e;
+		visual[EraIndices[vehicleEra]].SetActive(true);
 	}
 }

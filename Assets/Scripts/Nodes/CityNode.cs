@@ -84,7 +84,7 @@ public class CityNode : Node
         }
     }
 
-    public void Consumpiton()
+    public void Consumption()
     {
         if (!isOriginal)
         {
@@ -138,7 +138,7 @@ public class CityNode : Node
             nodeManager = manager.GetComponent<NodeManager>();
             canvas.enabled = false;
             globe = GetComponentInParent<Globe>();
-            InvokeRepeating("Consumpiton", 0f, 1f);
+            InvokeRepeating("Consumption", 0f, 1f);
             for (int i = 0; i < 2; i++)
             {
                 valuesThresHold[i].enabled = false;

@@ -25,20 +25,6 @@ public class Constants
         Barren
     }
 
-    public static readonly Dictionary<NodeType, string> GenericNodePrefabs = new Dictionary<NodeType, string>()
-    {
-        { NodeType.City, "" },
-        { NodeType.Barren, "" }
-    };
-
-	public static readonly Dictionary<ResourceType, string> ResourceNodePrefabs = new Dictionary<ResourceType, string>()
-	{
-		{ ResourceType.Fuel, "" },
-		{ ResourceType.Food, "" },
-		{ ResourceType.Minerals, "" },
-		{ ResourceType.Metal, "" },
-	};
-
 	// Resources
 	public enum ResourceType
     {
@@ -68,10 +54,17 @@ public class Constants
     // Cities
     public enum Era
     {
-        Primitive,
+        Primitive = 0,
         Modern,
         Futuristic
     }
+
+    public static readonly Dictionary<Era, int> EraIndices = new Dictionary<Era, int>()
+    {
+        { Era.Primitive, 0 },
+        { Era.Modern, 1 },
+        { Era.Futuristic, 2 },
+    };
 
     // Transportation
     public enum TransportType

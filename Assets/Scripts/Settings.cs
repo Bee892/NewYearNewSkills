@@ -23,4 +23,16 @@ public class Settings : ScriptableObject
     // Transportation
 	public float MinTimeArrivalToDeparture;
 	public float MaxTimeArrivalToDeparture;
+    /*public GameObject PrimitivePlanePrefab;
+    public GameObject PrimitiveBoatPrefab;
+    public GameObject PrimitiveTruckPrefab;
+    public GameObject PrimitiveTrainPrefab;
+    public GameObject ModernPlanePrefab;
+    public GameObject ModernBoatPrefab;
+    public GameObject ModernTruckPrefab;
+    public GameObject ModernTrainPrefab;
+    public GameObject FuturePlanePrefab;
+    public GameObject FutureBoatPrefab;
+    public GameObject FutureTruckPrefab;
+    public GameObject FutureTrainPrefab;*/
 }
