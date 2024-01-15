@@ -76,6 +76,7 @@ MonoBehaviour:
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
+  sfxmanager: {fileID: 0}
 --- !u!135 &5456359021525416613
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -353,7 +354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 615296e8920d0774992bf103b7f36406, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

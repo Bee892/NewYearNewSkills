@@ -107,29 +107,18 @@ public class SFXManager : MonoBehaviour
     }
     public IEnumerator sfx()
     {
-        
-        if (index == 0)
-        {
-            newSource = ost(nodeManager.CityEra, this.transform);
-            index++;
-        }
-        if (nodeManager.CityEra == 1)
-        {
-            newSource.Stop();
-            yield return new WaitUntil(() => nodeManager.CityEra == (int)Era.Modern);
-            newSource = ost(1, this.transform);
-            newSource.Play();
-        }
-        if (nodeManager.CityEra == 2)
-        {
-            newSource.Stop();
-            yield return new WaitUntil(() => nodeManager.CityEra == (int)Era.Futuristic);
-            newSource = ost(2, this.transform);
-            newSource.Play();
-        }
-        yield return new WaitForSeconds(5f);
-        StartCoroutine(sfx());
-
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        AudioSource source = new AudioSource();
+        source = ost(nodeManager.CityEra, this.transform);
+        source.Play();
+        yield return new WaitUntil(() => nodeManager.CityEra == 1);
+        source.Stop();
+        source = ost(1, this.transform);
+        source.Play();
+        yield return new WaitUntil(() => nodeManager.CityEra == 2);
+        source.Stop();
+        source = ost(2, this.transform);
+        source.Play();
     }
     private void Start()
     {

@@ -25,7 +25,7 @@ public abstract class ResourceNode : Node
     public GameObject[] visuals;
     public GameObject[] seaVisuals;
     public LandSeaDesignation landOrSea;
-    public int eraIndex = -1;
+    private int eraIndex = -1;
     public GameObject GenericNodePrefabs;
     public bool isOriginal = true;
     public string prefabPathName;
@@ -109,9 +109,10 @@ public abstract class ResourceNode : Node
     public void nodeStart()
     {
         landOrSea = GetComponentInParent<Tile>().type;
-        updateVisuals();
+        
         GameObject manager = GameObject.FindGameObjectWithTag("Manager");
         nodeManager = manager.GetComponent<NodeManager>();
+        updateVisuals();
     }
     public void OnMouseDown()
     {

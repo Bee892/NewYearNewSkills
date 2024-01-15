@@ -42,7 +42,7 @@ public class FarmNode : ResourceNode
             source.Stop();
             source.Play();
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(sfx());
 
 

@@ -94,6 +94,7 @@ MonoBehaviour:
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
+  sfxmanager: {fileID: 0}
   resourcesOfEachCategory: []
 --- !u!1001 &2227985327581551888
 PrefabInstance:
@@ -162,7 +163,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a5c378e1f43046b419a3408194ad507d, type: 2}
+      objectReference: {fileID: 2100000, guid: 97018f442bc0b1c4c8fbb8641cbc5fc6, type: 2}
     - target: {fileID: 919132149155446097, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_Name
       value: 18-19. 28-29. 38-39. 47-48 Rock pile (Metal and minerals)

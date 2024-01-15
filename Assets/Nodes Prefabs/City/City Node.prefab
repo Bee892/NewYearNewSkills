@@ -2567,7 +2567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8962528747467885057
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8990,6 +8990,7 @@ MonoBehaviour:
   cityAspects: 00000000
   moneyIncrease: 0
   eraMultipliers: 01000000040000000a000000
+  eraMultipliers2: 01000000050000000c000000
   isCityAlive: 1
   cityNotCrumbleThreshold: 0
   cityRevivalThreshold:
@@ -9065,7 +9066,14 @@ MonoBehaviour:
   - {fileID: 4940130489421860400}
   resourceNodes1: []
   GenericNodePrefabs: {fileID: 0}
+  upgradeCityButton: {fileID: 3031887626805767246}
+  upgradeAspectButtons:
+  - {fileID: 5962808329885344418}
+  - {fileID: 5182152747643329088}
+  - {fileID: 5265642772755644475}
+  - {fileID: 2633053961872822415}
   isOriginal: 1
+  cost: 0
 --- !u!135 &4945422734188988353
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9599,7 +9607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b3f6b56e54ded04ca475ff578f5e4dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.206
+      value: 0.141
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b3f6b56e54ded04ca475ff578f5e4dd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9781,11 +9789,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20c8bfd116e24d742bf3629c9837bae4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.206
+      value: 0.128
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20c8bfd116e24d742bf3629c9837bae4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.046
+      value: 0.153
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20c8bfd116e24d742bf3629c9837bae4, type: 3}
       propertyPath: m_LocalRotation.w

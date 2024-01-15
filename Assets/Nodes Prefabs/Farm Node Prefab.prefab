@@ -52,11 +52,11 @@ MonoBehaviour:
   Settings: {fileID: 0}
   Type: 0
   era: 0
-  resourceGeneration: 0
-  resourceTransmitted: 0
+  resourceGeneration: 1000
+  resourceTransmitted: 100
   totalResourceGenerated: 0
-  maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 0
+  maxResourcesGenerated: 1000
+  timeSpanForNodeToReplenish: 20
   resourceStored: 0
   City: {fileID: 0}
   eraMultipliers: 01000000050000000c000000
@@ -75,6 +75,7 @@ MonoBehaviour:
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
+  sfxmanager: {fileID: 0}
 --- !u!135 &1208868496582502927
 SphereCollider:
   m_ObjectHideFlags: 0

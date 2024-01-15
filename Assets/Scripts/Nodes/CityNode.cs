@@ -23,6 +23,7 @@ public class CityNode : Node
     public float moneyIncrease;
     protected Era cityEra;
     public int[] eraMultipliers = { 1, 4, 10 };
+    public int[] eraMultipliers2 = { 1, 5, 12 };
     public bool isCityAlive = true;
     public float cityNotCrumbleThreshold;
     public float[] cityRevivalThreshold;
@@ -73,11 +74,14 @@ public class CityNode : Node
     public static event cityUpgrade OnCityUpgrade;
     public List<ResourceNode> resourceNodes1;
     public GameObject GenericNodePrefabs;
+    public GameObject upgradeCityButton;
+    public GameObject[] upgradeAspectButtons;
     float[] transportTypeMultiplicators = { 1, 4, 2, 5 };
     float[] fuelConsumption = { 100, 300, 200, 500 };
     public bool isOriginal = true;
     public float cost;
     SFXManager sfxmanager;
+    int sfxIndex = 0;
     public Era CityEra
     {
         get
@@ -116,6 +120,10 @@ public class CityNode : Node
             {
                 foreach (CityNode citynode in nodeManager.cityNodes) citynode.canvas.enabled = false;
                 canvas.enabled = true;
+                GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+                sfxmanager = manager.GetComponent<SFXManager>();
+                AudioSource source = sfxmanager.citySFX(this.transform);
+                source.loop = false;
             }
             else
             {
@@ -151,9 +159,7 @@ public class CityNode : Node
             {
                 upgradeTexts[i].enabled = false;
             }
-            sfxmanager = manager.GetComponent<SFXManager>();
-            sfxmanager.citySFX(this.transform);
-
+            
         }
 
     }
@@ -231,17 +237,24 @@ public class CityNode : Node
         if (!cityAspects[index] && (int)cityEra < 2 && resourcesStored[0] > upgradeCost[0] && resourcesStored[1] > upgradeCost[1] && resourcesStored[2] > upgradeCost[2] && resourcesStored[3] > upgradeCost[3] && money > upgradeCost[4])
         {
             cityAspects[index] = true;
+            upgradeAspectButtons[index].SetActive(false);
             for(int i = 0; i < 4; i++)
             {
                 resourcesStored[i] -= upgradeCost[i];
             }
             money -= upgradeCost[4];
+
+            if (cityAspects[0] && cityAspects[1] && cityAspects[2] && cityAspects[3])
+            {
+                upgradeCityButton.SetActive(true);
+            }
         }
     }
     void UpgradeCity()
     {
         if (cityAspects[0] && cityAspects[1] && cityAspects[2] && cityAspects[3])
         {
+            upgradeCityButton.SetActive(false);
             visuals[(int)cityEra].gameObject.SetActive(false);
             cityEra++;
             if (nodeManager.CityEra < (int)cityEra) nodeManager.CityEra = (int)cityEra;
@@ -250,14 +263,20 @@ public class CityNode : Node
             for (int i = 0; i < initialResourcesConsumption.Length; i++) {
                 initialResourcesConsumption[i] = initialResourcesConsumption[i] * eraMultipliers[(int)cityEra];
                 upgradeCost[i] = upgradeCost[i] * eraMultipliers[(int)cityEra];
+                resourcesConsumption[i] = resourcesConsumption[i] * eraMultipliers2[(int)cityEra];
                 }
             upgradeCost[4] = upgradeCost[4] * eraMultipliers[(int)cityEra];
+            moneyIncrease = moneyIncrease * eraMultipliers2[(int)cityEra];
+            cost = cost * eraMultipliers[(int)cityEra];
             for (int i = 0; i < cityAspects.Length; i++)
             {
-                cityAspects[i] = false;
+                if ((int)cityEra != 2)
+                {
+                    cityAspects[i] = false;
+                    upgradeAspectButtons[i].SetActive(true);
+                }
             }
         }
-        ResourceNode[] resourceNodes = GetComponentsInChildren<ResourceNode>();
     }
 
     public void CreateTradeRouteBetweenCities(CityNode destination, float quantity, bool persistence, ResourceType type, TransportType transport)
@@ -302,26 +321,18 @@ public class CityNode : Node
     {
         GameObject manager = GameObject.FindGameObjectWithTag("Manager");
         sfxmanager = manager.GetComponent<SFXManager>();
-        AudioSource source = sfxmanager.ost((int)CityEra, this.transform);
-        source.Stop();
-        source.Play();
-        if ((int)CityEra == 0)
-        {
+        AudioSource source = new AudioSource();
+            source = sfxmanager.ost((int)CityEra, this.transform);
             source.Stop();
             source.Play();
             yield return new WaitUntil(() => CityEra == Era.Modern);
-            source = sfxmanager.ost(1, this.transform);
-        }
-        if ((int)CityEra == 1)
-        {
             source.Stop();
+            source = sfxmanager.ost(1, this.transform);
             source.Play();
             yield return new WaitUntil(() => CityEra == Era.Futuristic);
+            source.Stop();
             source = sfxmanager.ost(2, this.transform);
-        }
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(sfx());
-
+            source.Play();
     }
 
     private void FixedUpdate()
