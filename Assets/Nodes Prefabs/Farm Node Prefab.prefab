@@ -52,14 +52,14 @@ MonoBehaviour:
   Settings: {fileID: 0}
   Type: 0
   era: 0
-  resourceGeneration: 0
-  resourceTransmitted: 0
+  resourceGeneration: 1000
+  resourceTransmitted: 10
   totalResourceGenerated: 0
   maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 0
+  timeSpanForNodeToReplenish: 10
   resourceStored: 0
   City: {fileID: 0}
-  eraMultipliers: 01000000050000000c000000
+  eraMultipliers: 010000000200000003000000
   used: 0
   nodeManager: {fileID: 0}
   visuals:
