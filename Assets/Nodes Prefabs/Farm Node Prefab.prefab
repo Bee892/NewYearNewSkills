@@ -53,23 +53,22 @@ MonoBehaviour:
   Type: 0
   era: 0
   resourceGeneration: 1000
-
-  resourceTransmitted: 10
+  resourceTransmitted: 0
   totalResourceGenerated: 0
   maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 10
+  timeSpanForNodeToReplenish: 0
   resourceStored: 0
   City: {fileID: 0}
-  eraMultipliers: 010000000200000003000000
+  eraMultipliers: 01000000050000000c000000
   used: 0
   nodeManager: {fileID: 0}
   visuals:
   - {fileID: 9093366541811561024}
   - {fileID: 3065729257429179695}
-  - {fileID: 3065729257429179695}
+  - {fileID: 1186030082063224132}
   seaVisuals:
-  - {fileID: 1186030082063224132}
-  - {fileID: 1186030082063224132}
+  - {fileID: 9093366541811561024}
+  - {fileID: 3065729257429179695}
   - {fileID: 1186030082063224132}
   landOrSea: 0
   GenericNodePrefabs: {fileID: 0}

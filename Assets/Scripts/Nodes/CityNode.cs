@@ -76,8 +76,8 @@ public class CityNode : Node
     public GameObject GenericNodePrefabs;
     public GameObject upgradeCityButton;
     public GameObject[] upgradeAspectButtons;
-    float[] transportTypeMultiplicators = { 1, 4, 2, 5 };
-    float[] fuelConsumption = { 100, 300, 200, 500 };
+    public float[] transportTypeMultiplicators = { 1, 4, 2, 5 };
+    public float[] fuelConsumption = { 100, 300, 200, 500 };
     public bool isOriginal = true;
     public float cost;
     SFXManager sfxmanager;
