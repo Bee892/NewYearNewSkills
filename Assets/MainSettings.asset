@@ -16,9 +16,9 @@ MonoBehaviour:
   ZoomSpeed: 0.5
   NumStartCities: 5
   MaxCityResourceStartDist: 0
-  NumStartFuel: 2
-  NumStartFood: 2
-  NumStartMetal: 2
-  NumStartMinerals: 2
+  NumStartFuel: 4
+  NumStartFood: 4
+  NumStartMetal: 4
+  NumStartMinerals: 4
   MinTimeArrivalToDeparture: 5
   MaxTimeArrivalToDeparture: 10

@@ -274,6 +274,12 @@ MonoBehaviour:
   cityNodes: []
   isSelectingTarget: 0
   target: {fileID: 0}
+  CityNodePrefab: {fileID: 8868851973029503856, guid: 4df5576903689a042b61100d4cf554e8, type: 3}
+  ResourceNodePrefab:
+  - {fileID: 7310950301899632296, guid: 97b59c9f65d5c4a4ab5463d6985d0bd5, type: 3}
+  - {fileID: 5882731175091553346, guid: 4d0833628f0b5ff4882997d530a50dfe, type: 3}
+  - {fileID: 7251068500603678245, guid: dbc45fe8a7977584e987ad0e48d72383, type: 3}
+  - {fileID: 7454577877953003325, guid: a436af86caca08040a9825edddb34259, type: 3}
 --- !u!23 &411828677 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2282403890464561610, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
@@ -554,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -740,6 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 747bdf7f938e4fc4aac22c81abbb292e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nodeManager: {fileID: 0}
 --- !u!23 &2041078994 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 192063130209963924, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}

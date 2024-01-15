@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using static Constants;
 
@@ -124,50 +126,5 @@ public class Globe : MonoBehaviour
         return nodeList;
 	}
 
-    public TransportRoute GenerateTradeRoute(CityNode cityStart, CityNode cityEnd, TransportType type, bool persist, Resource resource, Action<CityNode, Node, Resource> arrivalCallback)
-    {
-        return GenerateTradeRoute((Node) cityStart,(Node) cityEnd, type, persist, arrivalCallback, resource);
-    }
-
-	public TransportRoute GenerateTradeRoute(CityNode city, ResourceNode resourceNode, TransportType type, bool persist, Action<CityNode, Node, Resource> arrivalCallback)
-	{
-		return GenerateTradeRoute((Node) city, (Node) resourceNode, type, persist, arrivalCallback);
-	}
-
-    private TransportRoute GenerateTradeRoute(Node start, Node end, TransportType type, bool persist, Action<CityNode, Node, Resource> arrivalCallback, Resource resource = null)
-    {
-		LandSeaDesignation landSea = start.LandSeaDesignation;
-        Transport startVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[type]), start.transform);
-        startVehicle.gameObject.SetActive(false);
-		Dictionary<Node, Transport> vehicles = new Dictionary<Node, Transport>() { { start, startVehicle } };
-		List<Node> nodes = NodeManager.Instance.GetShortestPath(start, end).ToList();
-
-		if (type != TransportType.Plane)
-        {
-			for (int i = 1; i < nodes.Count; i++)
-			{
-				Node n = nodes[i];
-				if (n.LandSeaDesignation != landSea)
-				{
-                    Transport newVehicle = null;
-
-                    if (n.LandSeaDesignation == LandSeaDesignation.Sea)
-                    {
-                        newVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[TransportType.Boat]), start.transform);
-					}
-                    else
-                    {
-						newVehicle = Instantiate(AssetDatabase.LoadAssetAtPath<Transport>(TransportPrefabs[type]), start.transform);
-					}
-
-                    vehicles.Add(n, newVehicle);
-                    landSea = n.LandSeaDesignation;
-				}
-			}
-		}
-
-        TransportRoute route = Instantiate(new GameObject(), GameManager.Instance.TradeRoutesGO.transform).AddComponent<TransportRoute>();
-		route.Setup(persist, nodes, vehicles, resource, arrivalCallback);
-        return route;
-    }
+   
 }

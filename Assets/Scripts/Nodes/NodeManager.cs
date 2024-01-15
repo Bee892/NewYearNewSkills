@@ -10,6 +10,8 @@ public class NodeManager : MonoBehaviour
     public List<CityNode> cityNodes = new List<CityNode>();
     public bool isSelectingTarget;
     public GameObject target;
+    public GameObject CityNodePrefab;
+    public GameObject[] ResourceNodePrefab;
     private class LinkedNode
     {
         public Node n;

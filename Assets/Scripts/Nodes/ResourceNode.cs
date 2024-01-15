@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using static Constants;
 
@@ -132,12 +134,15 @@ public abstract class ResourceNode : Node
         
     }
 
-	
+
     GameObject InstantiatePrefab()
     {
 
-        return Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(prefabPathName));
+       
+        return Instantiate(nodeManager.ResourceNodePrefab[(int)resourceType]);
+
     }
+
     public void updateVisuals()
     {
         if (!isOriginal)
