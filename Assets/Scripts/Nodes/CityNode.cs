@@ -284,7 +284,7 @@ public class CityNode : Node
         if (!isOriginal)
         {
             quantity = quantity * transportTypeMultiplicators[(int)transport];
-            float fuelCost = fuelConsumption[(int)transport];
+            float fuelCost = eraMultipliers[(int)CityEra]*fuelConsumption[(int)transport]*Vector3.Distance(this.gameObject.transform.position,destination.gameObject.transform.position);
             money -= cost;
             if(persistence)
             {
@@ -312,7 +312,7 @@ public class CityNode : Node
             destination.resourceTransmitted = destination.resourceTransmitted * transportTypeMultiplicators[(int)transport];
             resourcesConsumption[(int)type] += destination.resourceTransmitted;
             destination.used = true;
-            resourcesStored[(int)ResourceType.Fuel] -= fuelCost;
+            resourcesConsumption[(int)ResourceType.Fuel] -= fuelCost;
             money -= cost;
            
         }

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7251068500603678245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.165, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -51,10 +51,10 @@ MonoBehaviour:
   Type: 0
   era: 0
   resourceGeneration: 0
-  resourceTransmitted: 0
-  totalResourceGenerated: 0
+  resourceTransmitted: 100
+  totalResourceGenerated: 5000
   maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 0
+  timeSpanForNodeToReplenish: 39
   resourceStored: 0
   City: {fileID: 0}
   eraMultipliers: 01000000050000000c000000
@@ -69,7 +69,6 @@ MonoBehaviour:
   - {fileID: 2806859226221076558}
   - {fileID: 2806859226221076558}
   landOrSea: 0
-  eraIndex: -1
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
@@ -117,11 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.282
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.145
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96219c1281f97164e99fcdf3afe2c2e6, type: 3}
       propertyPath: m_LocalPosition.z

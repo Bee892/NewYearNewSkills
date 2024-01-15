@@ -54,7 +54,7 @@ MonoBehaviour:
   Type: 0
   era: 0
   resourceGeneration: 0
-  resourceTransmitted: 0
+  resourceTransmitted: 100
   totalResourceGenerated: 0
   maxResourcesGenerated: 0
   timeSpanForNodeToReplenish: 0
@@ -72,7 +72,6 @@ MonoBehaviour:
   - {fileID: 6199009442732613641}
   - {fileID: 6199009442732613641}
   landOrSea: 0
-  eraIndex: 0
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 

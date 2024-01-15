@@ -72,10 +72,10 @@ MonoBehaviour:
   Type: 0
   era: 0
   resourceGeneration: 0
-  resourceTransmitted: 0
+  resourceTransmitted: 100
   totalResourceGenerated: 0
-  maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 0
+  maxResourcesGenerated: 5000
+  timeSpanForNodeToReplenish: 30
   resourceStored: 0
   City: {fileID: 0}
   eraMultipliers: 01000000050000000c000000
@@ -90,7 +90,6 @@ MonoBehaviour:
   - {fileID: 1308872970710212673}
   - {fileID: 1308872970710212673}
   landOrSea: 0
-  eraIndex: -1
   GenericNodePrefabs: {fileID: 0}
   isOriginal: 1
   prefabPathName: 
