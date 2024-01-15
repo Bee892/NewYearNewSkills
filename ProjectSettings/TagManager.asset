@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Node
+  - Manager
   layers:
   - Default
   - TransparentFX

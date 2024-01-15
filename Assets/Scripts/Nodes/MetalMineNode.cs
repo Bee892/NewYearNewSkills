@@ -9,6 +9,7 @@ public class MetalMineNode : MineNode
 	{
 		resourceType = ResourceType.Metal;
         StartCoroutine(Generation());
+		prefabPathName = "Assets/Nodes Prefabs/Mine Node Prefab.prefab";
     }
 
 	// Start is called before the first frame update

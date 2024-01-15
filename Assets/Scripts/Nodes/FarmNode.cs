@@ -8,7 +8,9 @@ public class FarmNode : ResourceNode
 	private void Awake()
 	{
 		resourceType = ResourceType.Food;
-	}
+        StartCoroutine(Generation());
+        prefabPathName = "Assets/Nodes Prefabs/Farm Node Prefab.prefab";
+    }
 
 	// Start is called before the first frame update
 	void Start()
