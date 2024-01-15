@@ -10,10 +10,45 @@ public class FarmNode : ResourceNode
 		resourceType = ResourceType.Food;
         StartCoroutine(Generation());
         prefabPathName = "Assets/Nodes Prefabs/Farm Node Prefab.prefab";
+        StartCoroutine(sfx());
+
+
     }
 
-	// Start is called before the first frame update
-	void Start()
+
+    public IEnumerator sfx()
+    {
+        yield return new WaitUntil(() => used);
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        sfxmanager = manager.GetComponent<SFXManager>();
+        AudioSource source = sfxmanager.farmSFX((int)City.CityEra, this.transform);
+        source.Stop();
+        source.Play();
+        if ((int)City.CityEra == 1)
+        {
+            source.Stop();
+            source.Play();
+            yield return new WaitUntil(() => City.CityEra == Era.Modern);
+            source = sfxmanager.farmSFX(1, this.transform);
+            source.Stop();
+            source.Play();
+        }
+        if ((int)City.CityEra == 2)
+        {
+            source.Stop();
+            source.Play();
+            yield return new WaitUntil(() => City.CityEra == Era.Futuristic);
+            source = sfxmanager.farmSFX(2, this.transform);
+            source.Stop();
+            source.Play();
+        }
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(sfx());
+
+
+    }
+    // Start is called before the first frame update
+    void Start()
     {
         
     }

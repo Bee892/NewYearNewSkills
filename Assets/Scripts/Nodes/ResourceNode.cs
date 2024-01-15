@@ -29,6 +29,7 @@ public abstract class ResourceNode : Node
     public GameObject GenericNodePrefabs;
     public bool isOriginal = true;
     public string prefabPathName;
+    public SFXManager sfxmanager;
 
 
     public override void Setup()
@@ -63,6 +64,8 @@ public abstract class ResourceNode : Node
     {
         get { return resourceType; }
     }
+
+    
 
     
     public IEnumerator Generation()

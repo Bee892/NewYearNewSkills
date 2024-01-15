@@ -6,6 +6,7 @@ using static Constants;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -76,6 +77,7 @@ public class CityNode : Node
     float[] fuelConsumption = { 100, 300, 200, 500 };
     public bool isOriginal = true;
     public float cost;
+    SFXManager sfxmanager;
     public Era CityEra
     {
         get
@@ -149,6 +151,9 @@ public class CityNode : Node
             {
                 upgradeTexts[i].enabled = false;
             }
+            sfxmanager = manager.GetComponent<SFXManager>();
+            sfxmanager.citySFX(this.transform);
+
         }
 
     }
@@ -239,6 +244,7 @@ public class CityNode : Node
         {
             visuals[(int)cityEra].gameObject.SetActive(false);
             cityEra++;
+            if (nodeManager.CityEra < (int)cityEra) nodeManager.CityEra = (int)cityEra;
             visuals[(int)cityEra].gameObject.SetActive(true);
             foreach(ResourceNode node in resourceNodes1) node.updateVisuals();
             for (int i = 0; i < initialResourcesConsumption.Length; i++) {
@@ -289,7 +295,33 @@ public class CityNode : Node
             destination.used = true;
             resourcesStored[(int)ResourceType.Fuel] -= fuelCost;
             money -= cost;
+           
         }
+    }
+    public IEnumerator sfx()
+    {
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        sfxmanager = manager.GetComponent<SFXManager>();
+        AudioSource source = sfxmanager.ost((int)CityEra, this.transform);
+        source.Stop();
+        source.Play();
+        if ((int)CityEra == 0)
+        {
+            source.Stop();
+            source.Play();
+            yield return new WaitUntil(() => CityEra == Era.Modern);
+            source = sfxmanager.ost(1, this.transform);
+        }
+        if ((int)CityEra == 1)
+        {
+            source.Stop();
+            source.Play();
+            yield return new WaitUntil(() => CityEra == Era.Futuristic);
+            source = sfxmanager.ost(2, this.transform);
+        }
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(sfx());
+
     }
 
     private void FixedUpdate()
@@ -448,24 +480,28 @@ public class CityNode : Node
     {
         if (isInputingTransferValue)
         {
-            isInputingTransferValue = false;
             StopCoroutine(tradeRouteEnumarator());
+            valueContainer.SetActive(false);
+            isInputingTransferValue = false;
+            
         }
         if (isSelectingTarget)
         {
-            isSelectingTarget = false;
             StopCoroutine(tradeRouteEnumarator());
+            isSelectingTarget = false;
+            
         }
         if(isSelectingResourceType)
         {
-            isSelectingResourceType = false;
             StopCoroutine(tradeRouteEnumarator());
+            isSelectingResourceType = false;
+           
             for (int i = 0; i < icons.Length; i++) icons[i].SetActive(false);
         }
         if(IsSelectingVehicle)
         {
-            IsSelectingVehicle=false;
             StopCoroutine(tradeRouteEnumarator());
+            IsSelectingVehicle =false;
             for (int i = 0; i < vehiclesButtons.Length; i++) vehiclesButtons[i].SetActive(false);
         }
         if(isSeingUpgrades)
@@ -482,6 +518,7 @@ public class CityNode : Node
         }
         if(isSelectingPersistence)
         {
+            StopCoroutine(tradeRouteEnumarator());
             isSelectingPersistence = false;
             persistentText.gameObject.SetActive(false);
             yesButton.SetActive(false); noButton.SetActive(false);

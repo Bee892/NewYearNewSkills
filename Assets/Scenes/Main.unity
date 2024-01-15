@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 290459063}
   - component: {fileID: 290459066}
   - component: {fileID: 290459065}
+  - component: {fileID: 290459067}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Manager
@@ -280,6 +281,55 @@ MonoBehaviour:
   - {fileID: 5882731175091553346, guid: 4d0833628f0b5ff4882997d530a50dfe, type: 3}
   - {fileID: 7251068500603678245, guid: dbc45fe8a7977584e987ad0e48d72383, type: 3}
   - {fileID: 7454577877953003325, guid: a436af86caca08040a9825edddb34259, type: 3}
+  CityEra: 0
+--- !u!114 &290459067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290459062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181377ef7ec90b64bbd1ebc8a28f4954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6007756000392423299, guid: f9f326da71ad61f4eaa41f55033e52f9, type: 3}
+  sourcePrefab: {fileID: -8383214764637961920, guid: f9f326da71ad61f4eaa41f55033e52f9, type: 3}
+  smallZoom: {fileID: 8300000, guid: 75791fe317b56864eb0d36ae8daeadb5, type: 3}
+  bigZoom: {fileID: 8300000, guid: 9e1d1809a64c90043a4acba874a40042, type: 3}
+  cities: {fileID: 8300000, guid: 3d32b0c27522b0345acca196122b3654, type: 3}
+  farm:
+  - {fileID: 8300000, guid: 0b86926ae8c864440801d57006309a60, type: 3}
+  - {fileID: 8300000, guid: 6fc5554e2925ffe41828793398b625d4, type: 3}
+  - {fileID: 8300000, guid: bfa9df8927fdf1646ae057f5f4b4b4ae, type: 3}
+  fuel:
+  - {fileID: 8300000, guid: bcb393c698ce39c46bdcdc9538fa7049, type: 3}
+  - {fileID: 8300000, guid: 1f8c27e93fc5caf4ab2b758b727de2de, type: 3}
+  - {fileID: 8300000, guid: 7a66a3030acc1314692c3836292a0015, type: 3}
+  metal:
+  - {fileID: 8300000, guid: b3663721e7925db4fa15f52b21fe762d, type: 3}
+  - {fileID: 8300000, guid: bc161555b1e2af7419f6d197ba7ceac7, type: 3}
+  - {fileID: 8300000, guid: ec9246c1047845945b9c98ff29d98eda, type: 3}
+  minerals:
+  - {fileID: 8300000, guid: b3663721e7925db4fa15f52b21fe762d, type: 3}
+  - {fileID: 8300000, guid: bc161555b1e2af7419f6d197ba7ceac7, type: 3}
+  - {fileID: 8300000, guid: ec9246c1047845945b9c98ff29d98eda, type: 3}
+  boat:
+  - {fileID: 8300000, guid: 2ca1f57633f849845ab7fa5d27e78791, type: 3}
+  - {fileID: 8300000, guid: 0e913291b9db63a4db92b091ee2f8268, type: 3}
+  - {fileID: 8300000, guid: 5484e9bc110cc0c468ccf05b6f598974, type: 3}
+  air: []
+  train: []
+  truck:
+  - {fileID: 8300000, guid: 3153e2a4f48bdea49a6ce2d806698aff, type: 3}
+  - {fileID: 8300000, guid: 9ad8ce369df422a49b468bd64518cc67, type: 3}
+  - {fileID: 8300000, guid: 9ad8ce369df422a49b468bd64518cc67, type: 3}
+  OST:
+  - {fileID: 8300000, guid: 4043c521ed353b64b995c4d91ce1403e, type: 3}
+  - {fileID: 8300000, guid: c7250fa78ad37c3429f6ddf3b7479948, type: 3}
+  - {fileID: 8300000, guid: 97a94494c06b9de4fabddac2a5f84c6c, type: 3}
+  nodeManager: {fileID: 290459066}
 --- !u!23 &411828677 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2282403890464561610, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
@@ -395,6 +445,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -476,6 +527,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7a5d72af10c9946a301f360479538c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1223859112}
 --- !u!1 &1078308551
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,6 +576,37 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3539238922366815838, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
   m_PrefabInstance: {fileID: 1599925396}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1223859111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1223859112}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1223859112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223859111}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8069248, y: -1.5395263, z: 1.86169}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1319129731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,3 +1174,4 @@ SceneRoots:
   - {fileID: 1599925396}
   - {fileID: 1319129735}
   - {fileID: 58404422}
+  - {fileID: 1223859112}
