@@ -53,8 +53,8 @@ MonoBehaviour:
   Settings: {fileID: 0}
   Type: 0
   era: 0
-  resourceGeneration: 0
-  resourceTransmitted: 0
+  resourceGeneration: 1000
+  resourceTransmitted: 10
   totalResourceGenerated: 0
   maxResourcesGenerated: 0
   timeSpanForNodeToReplenish: 0
