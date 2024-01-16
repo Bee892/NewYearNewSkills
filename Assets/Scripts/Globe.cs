@@ -20,6 +20,8 @@ public class Globe : MonoBehaviour
     private Vector3 deltaMousePos;
     private List<Node> nodes;
     public NodeManager nodeManager;
+    public GameObject[][] transportations;
+    
 
     public bool Rotating
     {
@@ -78,6 +80,7 @@ public class Globe : MonoBehaviour
             mousePos = Input.mousePosition;
         }
     }
+
 
     public void Setup(int numOfCities, int numOfFuel, int numOfFood, int numOfMetal, int numOfMinerals)
     {

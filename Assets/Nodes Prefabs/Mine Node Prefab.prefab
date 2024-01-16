@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1552877711979128091}
-  - component: {fileID: 8254750878990100128}
   - component: {fileID: 8209901258578247581}
+  - component: {fileID: 859470932630573081}
   m_Layer: 0
   m_Name: Mine Node Prefab
   m_TagString: Untagged
@@ -34,45 +34,6 @@ Transform:
   - {fileID: 3294426235267922676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8254750878990100128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7251068500603678245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9378ead750147fb419c74571b4005ec1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NeighborNodes: []
-  Settings: {fileID: 0}
-  Type: 0
-  era: 0
-  resourceGeneration: 500
-  resourceTransmitted: 10
-  totalResourceGenerated: 0
-  maxResourcesGenerated: 0
-  timeSpanForNodeToReplenish: 10
-  resourceStored: 0
-  City: {fileID: 0}
-  eraMultipliers: 010000000200000003000000
-  used: 0
-  nodeManager: {fileID: 0}
-  visuals:
-  - {fileID: 2806859226221076558}
-  - {fileID: 2806859226221076558}
-  - {fileID: 2806859226221076558}
-  seaVisuals:
-  - {fileID: 2806859226221076558}
-  - {fileID: 2806859226221076558}
-  - {fileID: 2806859226221076558}
-  landOrSea: 0
-  GenericNodePrefabs: {fileID: 0}
-  isOriginal: 1
-  prefabPathName: 
-  sfxmanager: {fileID: 0}
 --- !u!135 &8209901258578247581
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -94,6 +55,45 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &859470932630573081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251068500603678245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3548b518e448c6a4fa26d2f8f8971e36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NeighborNodes: []
+  Settings: {fileID: 0}
+  Type: 0
+  era: 0
+  resourceGeneration: 500
+  resourceTransmitted: 10
+  totalResourceGenerated: 0
+  maxResourcesGenerated: 0
+  timeSpanForNodeToReplenish: 10
+  resourceStored: 0
+  City: {fileID: 0}
+  eraMultipliers: 01000000050000000c000000
+  used: 0
+  nodeManager: {fileID: 0}
+  visuals:
+  - {fileID: 2806859226221076558}
+  - {fileID: 2806859226221076558}
+  - {fileID: 2806859226221076558}
+  seaVisuals:
+  - {fileID: 2806859226221076558}
+  - {fileID: 2806859226221076558}
+  - {fileID: 2806859226221076558}
+  landOrSea: 0
+  GenericNodePrefabs: {fileID: 0}
+  isOriginal: 1
+  prefabPathName: 
+  sfxmanager: {fileID: 0}
 --- !u!1001 &3040666737707212063
 PrefabInstance:
   m_ObjectHideFlags: 0

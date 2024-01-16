@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 290459066}
   - component: {fileID: 290459065}
   - component: {fileID: 290459067}
+  - component: {fileID: 290459068}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Manager
@@ -330,6 +331,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c7250fa78ad37c3429f6ddf3b7479948, type: 3}
   - {fileID: 8300000, guid: 97a94494c06b9de4fabddac2a5f84c6c, type: 3}
   nodeManager: {fileID: 290459066}
+--- !u!114 &290459068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290459062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0bda2de009639a4b9a4acf8b4f359b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefab:
+  - {fileID: 4828205584588904265, guid: 425599d2c8516b84bbb8a7a695951d8c, type: 3}
+  - {fileID: 6582262504978032061, guid: ac6a3405b11567546b063a5d308389ba, type: 3}
+  - {fileID: 1396259286424426693, guid: 438476ccc67ab8c48985c2467c28f326, type: 3}
+  - {fileID: 2830588659009968608, guid: cd052464579db5841bdf1337617feecb, type: 3}
+  sphereRadius: 3.25
 --- !u!23 &411828677 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2282403890464561610, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
@@ -1157,6 +1176,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3321841675704276633, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1994726702}
+    - targetCorrespondingSourceObject: {fileID: 3321841675704276633, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1994726705}
   m_SourcePrefab: {fileID: 100100000, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}
 --- !u!23 &1622323877 stripped
 MeshRenderer:
@@ -1186,6 +1208,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeManager: {fileID: 0}
+--- !u!114 &1994726705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994726699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0bda2de009639a4b9a4acf8b4f359b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefab:
+  - {fileID: 4828205584588904265, guid: 425599d2c8516b84bbb8a7a695951d8c, type: 3}
+  - {fileID: 6582262504978032061, guid: ac6a3405b11567546b063a5d308389ba, type: 3}
+  - {fileID: 1396259286424426693, guid: 438476ccc67ab8c48985c2467c28f326, type: 3}
+  - {fileID: 2830588659009968608, guid: cd052464579db5841bdf1337617feecb, type: 3}
+  sphereRadius: 3.25
 --- !u!23 &2041078994 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 192063130209963924, guid: 174a0e41b17985348bc8587d58bb0598, type: 3}

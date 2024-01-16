@@ -79,7 +79,6 @@ public class CityNode : Node
     public bool isOriginal = true;
     public float cost;
     SFXManager sfxmanager;
-    int sfxIndex = 0;
     public Era CityEra
     {
         get
@@ -224,6 +223,14 @@ public class CityNode : Node
         if (resourcesStored[(int)ResourceType.Fuel] < cityNotCrumbleThreshold || resourcesStored[(int)ResourceType.Food] < cityNotCrumbleThreshold) 
         Death();
     }
+    public IEnumerator transportRouteVisuals(int index, Vector3 point1, Vector3 point2)
+    {
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        SphereObjectMovement visuals = GetComponentInParent<SphereObjectMovement>();
+        visuals.CreateMovingObject(point1, point2, index,this.GetComponentInParent<Globe>().transform);
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(transportRouteVisuals(index, point1, point2));
+    }
 
     public override void Selected()
     {
@@ -290,6 +297,7 @@ public class CityNode : Node
                 resourcesStored[(int)type] -= quantity;
                 destination.resourcesStored[(int)type] += quantity;
                 resourcesStored[(int)ResourceType.Fuel] -= fuelCost;
+                StartCoroutine(transportRouteVisuals((int)transportType,this.gameObject.transform.localPosition, destination.gameObject.transform.localPosition));
             }
             else
             {
@@ -301,7 +309,7 @@ public class CityNode : Node
     }
     public void CreateTradeRouteBetweenCityAndResourceNode (ResourceNode destination, TransportType transport)
     {
-        float fuelCost = fuelConsumption[(int)transport];
+        float fuelCost = eraMultipliers[(int)CityEra]*fuelConsumption[(int)transport]*Vector3.Distance(this.gameObject.GetComponentInParent<Tile>().transform.position,destination.gameObject.GetComponentInParent<Tile>().transform.position);
         resourceNodes1.Add(destination);
         if (!destination.used)
         {
@@ -312,7 +320,8 @@ public class CityNode : Node
             destination.used = true;
             resourcesConsumption[(int)ResourceType.Fuel] -= fuelCost;
             money -= cost;
-           
+            StartCoroutine(transportRouteVisuals((int)transportType, destination.gameObject.GetComponentInParent<Tile>().transform.localPosition, this.gameObject.GetComponentInParent<Tile>().transform.localPosition));
+
         }
     }
     public IEnumerator sfx()
