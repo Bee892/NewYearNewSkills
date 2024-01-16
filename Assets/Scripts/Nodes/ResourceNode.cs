@@ -129,7 +129,7 @@ public abstract class ResourceNode : Node
 
     public void OnEnable()
     {
-        CityNode.OnCityUpgrade += updateVisuals;
+        
     }
 
     // Update is called once per frame

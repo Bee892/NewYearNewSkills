@@ -70,8 +70,6 @@ public class CityNode : Node
     public GameObject yesButton;
     public GameObject noButton;
     public GameObject[] visuals;
-    public delegate void cityUpgrade();
-    public static event cityUpgrade OnCityUpgrade;
     public List<ResourceNode> resourceNodes1;
     public GameObject GenericNodePrefabs;
     public GameObject upgradeCityButton;
